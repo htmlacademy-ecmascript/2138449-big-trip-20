@@ -24,7 +24,7 @@ function createFilterTemplate() {
 
   <button class="visually-hidden" type="submit">Accept filter</button>
 </form>`);
-};
+}
 
 export default class FilterView {
   getTemplate() {
@@ -42,4 +42,4 @@ export default class FilterView {
   removeElement() {
     this.element = null;
   }
-};
+}

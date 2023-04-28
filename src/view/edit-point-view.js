@@ -1,4 +1,4 @@
-import { createElement } from "../render";
+import { createElement } from '../render';
 
 function createEditPointTemplate() {
   return (`<form class="event event--edit" action="#" method="post">
@@ -154,7 +154,7 @@ function createEditPointTemplate() {
     </section>
   </section>
 </form>`);
-};
+}
 
 export default class PointEditView {
   getTemplate() {
@@ -172,4 +172,4 @@ export default class PointEditView {
   removeElement() {
     this.element = null;
   }
-};
+}
