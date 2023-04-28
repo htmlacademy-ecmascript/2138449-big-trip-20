@@ -10,12 +10,9 @@ const filterElement = tripInfoElement.querySelector('.trip-controls__filters');
 const pageMain = bodyElement.querySelector('.page-main');
 const eventListElement = pageMain.querySelector('.trip-events');
 
-
 const listPresenter = new ListPresenter({boardContainer: eventListElement});
 
 render(new TripInfoView(), tripInfoElement, RenderPosition.AFTERBEGIN);
 render(new FilterView(), filterElement);
 
-
 listPresenter.init();
-
