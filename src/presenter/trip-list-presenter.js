@@ -5,6 +5,8 @@ import PointListView from '../view/point-list-view.js';
 import SortView from '../view/sort-view.js';
 import ListView from '../view/list-view.js';
 
+const POINT_COUNT = 3;
+
 export default class ListPresenter {
   boardComponent = new ListView();
   pointListComponent = new PointListView();
@@ -19,7 +21,7 @@ export default class ListPresenter {
     render(this.pointListComponent, this.boardContainer);
     render(new PointEditView, this.pointListComponent.getElement());
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < POINT_COUNT; i++) {
       render(new NewPointView, this.pointListComponent.getElement());
     }
   }
