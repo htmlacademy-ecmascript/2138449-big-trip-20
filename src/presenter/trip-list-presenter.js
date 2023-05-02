@@ -5,24 +5,25 @@ import PointListView from '../view/point-list-view.js';
 import SortView from '../view/sort-view.js';
 import ListView from '../view/list-view.js';
 
-const POINT_COUNT = 3;
-
 export default class ListPresenter {
   boardComponent = new ListView();
   pointListComponent = new PointListView();
 
-  constructor({boardContainer}) {
+  constructor({boardContainer, pointsModel}) {
     this.boardContainer = boardContainer;
+    this.pointsModel = pointsModel;
   }
 
   init() {
+    this.boardPoints = [...this.pointsModel.getPoints()];
+
     render(this.boardComponent, this.boardContainer);
     render(new SortView(), this.boardComponent.getElement());
     render(this.pointListComponent, this.boardContainer);
     render(new PointEditView, this.pointListComponent.getElement());
 
-    for (let i = 0; i < POINT_COUNT; i++) {
-      render(new NewPointView, this.pointListComponent.getElement());
+    for (let i = 0; i < this.boardPoints.length; i++) {
+      render(new NewPointView({point: this.boardPoints[i]}), this.pointListComponent.getElement());
     }
   }
 }
