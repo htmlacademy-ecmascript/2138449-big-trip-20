@@ -83,31 +83,31 @@ const baseMockPoints = [
   {
     id: '23',
     basePrice: 195,
-    dateFrom: '2019-07-11T22:55:56.845Z',
-    dateTo: '2019-07-14T20:03:56.845Z',
-    destination: destinationsMock[200], // бред
+    dateFrom: new Date('2022-03-04'),
+    dateTo: new Date('2022-03-05'),
+    destination: [200], // бред
     isFavorite: false,
-    offers: offersMock[1], // бред
+    offers: [1], // бред
     type: 'train',
   },
   {
     id: '68',
     basePrice: 273,
-    dateFrom: '2020-02-15T12:05:06.845Z',
-    dateTo: '2020-02-18T22:15:26.845Z',
-    destination: destinationsMock[300], // бред
+    dateFrom: new Date('2022-07-08'),
+    dateTo: new Date('2022-07-09'),
+    destination: [300], // бред
     isFavorite: true,
-    offers: offersMock[3], // бред
+    offers: [3], // бред
     type: 'bus',
   },
   {
     id: '17',
     basePrice: 379,
-    dateFrom: '2021-09-13T22:55:56.845Z',
-    dateTo: '2021-09-18T15:15:54.845Z',
-    destination: destinationsMock[100], // бред
+    dateFrom: new Date('2020-09-09'),
+    dateTo: new Date('2020-10-10'),
+    destination: [100], // бред
     isFavorite: false,
-    offers: offersMock[2], // бред
+    offers: [2], // бред
     type: 'flight',
   },
 ];
