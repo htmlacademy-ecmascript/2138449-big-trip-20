@@ -1,30 +1,37 @@
 import { createElement } from '../render';
+import { humanizePointDueDate } from '../utils';
 
-function createNewPointTemplate() {
-  return (`<li class="trip-events__item">
+const MOUNTH_DAY = 'МММ DD';
+const HOUR_MIN = 'HH:mm';
+
+function createNewPointTemplate(data) {
+
+  const { basePrice, dateFrom, dateTo, destination, offers, type } = data;
+
+  return (/*html*/`<li class="trip-events__item">
   <div class="event">
-    <time class="event__date" datetime="2019-03-18">MAR 18</time>
+    <time class="event__date" datetime="2019-03-18">${humanizePointDueDate(dateFrom, MOUNTH_DAY)}</time>
     <div class="event__type">
-      <img class="event__type-icon" width="42" height="42" src="img/icons/taxi.png" alt="Event type icon">
+      <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
     </div>
-    <h3 class="event__title">Taxi Amsterdam</h3>
+    <h3 class="event__title">${type} ${destination.name}</h3>
     <div class="event__schedule">
       <p class="event__time">
-        <time class="event__start-time" datetime="2019-03-18T10:30">10:30</time>
+        <time class="event__start-time" datetime="2019-03-18T10:30">${humanizePointDueDate(dateFrom, HOUR_MIN)}</time>
         &mdash;
-        <time class="event__end-time" datetime="2019-03-18T11:00">11:00</time>
+        <time class="event__end-time" datetime="2019-03-18T11:00">${humanizePointDueDate(dateTo, HOUR_MIN)}</time>
       </p>
-      <p class="event__duration">30M</p>
+      <p class="event__duration">30M/*ТУТ ДОЛЖЕН БЫТЬ РАСЧЕТ ВРЕМЕНИ*/</p>
     </div>
     <p class="event__price">
-      &euro;&nbsp;<span class="event__price-value">20</span>
+      &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
       <li class="event__offer">
-        <span class="event__offer-title">Order Uber</span>
+        <span class="event__offer-title">${offers.offers[0].title}</span>
         &plus;&euro;&nbsp;
-        <span class="event__offer-price">20</span>
+        <span class="event__offer-price">${offers.offers[0].price}</span>
       </li>
     </ul>
     <button class="event__favorite-btn event__favorite-btn--active" type="button">
@@ -41,8 +48,12 @@ function createNewPointTemplate() {
 }
 
 export default class NewPointView {
+  constructor ({point}) {
+    this.point = point;
+  }
+
   getTemplate() {
-    return createNewPointTemplate();
+    return createNewPointTemplate(this.point);
   }
 
   getElement() {
