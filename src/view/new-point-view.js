@@ -1,8 +1,10 @@
 import { createElement } from '../render';
 import { humanizePointDueDate } from '../utils';
+//import dayjs from 'dayjs';
 
-const MOUNTH_DAY = 'МММ DD';
+const MOUNTH_DAY = 'MMM DD';
 const HOUR_MIN = 'HH:mm';
+//const eventDate = dayjs(dateFrom).format(MOUNTH_DAY);
 
 function createNewPointTemplate(data) {
 
