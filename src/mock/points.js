@@ -106,6 +106,7 @@ const baseMockPoints = [
     dateFrom: '2020-12-01T01:00:00.000Z',
     dateTo: '2020-12-02T11:10:20.080Z',
     destination: destinationsMock[0], // ?
+    isFavorite: false,
     offers: offersMock[1], // ?
     type: 'flight',
   },

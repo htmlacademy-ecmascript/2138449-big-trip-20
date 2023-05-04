@@ -3,9 +3,43 @@ import { humanizePointDueDate } from '../utils';
 
 const DATE_FORMAT = 'DD/MM/YY HH:mm';
 
+const DEFAULT_POINT = {
+  id: '',
+  basePrice: 0,
+  dateFrom: null,
+  dateTo: null,
+  destination: {
+    id: '',
+    description: '',
+    name: '',
+    pictures: [
+      {
+        src: '',
+        description: ''
+      },
+      {
+        src: '',
+        description: ''
+      },
+    ]},
+  isFavorite: false,
+  offers: {
+    type: '',
+    offers: [
+      {
+        id: '',
+        title: '',
+        price: 0
+      }
+    ]
+  },
+  type: '',
+};
+
 function createEditPointTemplate(point) {
-  const {dueDate, destination, offers, type} = point;
-  const date = humanizePointDueDate(dueDate, DATE_FORMAT);
+  const {dateFrom, dateTo, destination, offers, type, basePrice} = point;
+  const dateStart = humanizePointDueDate(dateFrom, DATE_FORMAT);
+  const dateEnd = humanizePointDueDate(dateTo, DATE_FORMAT);
 
   return (/*html*/`<form class="event event--edit" action="#" method="post">
   <header class="event__header">
@@ -82,10 +116,10 @@ function createEditPointTemplate(point) {
 
     <div class="event__field-group  event__field-group--time">
       <label class="visually-hidden" for="event-start-time-1">From</label>
-      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${date}">
+      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dateStart}">
       &mdash;
       <label class="visually-hidden" for="event-end-time-1">To</label>
-      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${date}">
+      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dateEnd}">
     </div>
 
     <div class="event__field-group  event__field-group--price">
@@ -93,7 +127,7 @@ function createEditPointTemplate(point) {
         <span class="visually-hidden">Price</span>
         &euro;
       </label>
-      <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="160">
+      <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
     </div>
 
     <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -163,7 +197,7 @@ function createEditPointTemplate(point) {
 }
 
 export default class PointEditView {
-  constructor ({point}) {
+  constructor ({point = DEFAULT_POINT}) {
     this.point = point;
   }
 
