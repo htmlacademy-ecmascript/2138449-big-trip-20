@@ -38,7 +38,6 @@ const offersMock = [
   }
 ];
 
-
 const destinationsMock = [
   {
     id: '100',

@@ -2,38 +2,16 @@ import { createElement } from '../render';
 import { humanizePointDueDate } from '../utils';
 
 const DATE_FORMAT = 'DD/MM/YY HH:mm';
+const DEFAULT_TYPE = 'flight';
 
 const DEFAULT_POINT = {
-  id: '',
   basePrice: 0,
   dateFrom: null,
   dateTo: null,
-  destination: {
-    id: '',
-    description: '',
-    name: '',
-    pictures: [
-      {
-        src: '',
-        description: ''
-      },
-      {
-        src: '',
-        description: ''
-      },
-    ]},
+  destination: null,
   isFavorite: false,
-  offers: {
-    type: '',
-    offers: [
-      {
-        id: '',
-        title: '',
-        price: 0
-      }
-    ]
-  },
-  type: '',
+  offers: [],
+  type: DEFAULT_TYPE
 };
 
 function createEditPointTemplate(point) {

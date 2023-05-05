@@ -9,11 +9,11 @@ export default class PointsModel {
     return this.points;
   }
 
-  getOffers() {
+  /*getOffers() {
     //return
   }
 
   getDestinations() {
     //return
-  }
+  }*/
 }
