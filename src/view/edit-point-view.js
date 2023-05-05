@@ -122,45 +122,45 @@ function createEditPointTemplate(point) {
         <div class="event__offer-selector">
           <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
           <label class="event__offer-label" for="event-offer-luggage-1">
-            <span class="event__offer-title">Add luggage</span>
+            <span class="event__offer-title">${offers.offers[0].title}</span>
             &plus;&euro;&nbsp;
-            <span class="event__offer-price">50</span>
+            <span class="event__offer-price">${offers.offers[0].price}</span>
           </label>
         </div>
 
         <div class="event__offer-selector">
           <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-1" type="checkbox" name="event-offer-comfort" checked>
           <label class="event__offer-label" for="event-offer-comfort-1">
-            <span class="event__offer-title">Switch to comfort</span>
+            <span class="event__offer-title">${offers.offers[1].title}</span>
             &plus;&euro;&nbsp;
-            <span class="event__offer-price">80</span>
+            <span class="event__offer-price">${offers.offers[1].price}</span>
           </label>
         </div>
 
         <div class="event__offer-selector">
           <input class="event__offer-checkbox  visually-hidden" id="event-offer-meal-1" type="checkbox" name="event-offer-meal">
           <label class="event__offer-label" for="event-offer-meal-1">
-            <span class="event__offer-title">Add meal</span>
+            <span class="event__offer-title">${offers.offers[2].title}</span>
             &plus;&euro;&nbsp;
-            <span class="event__offer-price">15</span>
+            <span class="event__offer-price">${offers.offers[2].price}</span>
           </label>
         </div>
 
         <div class="event__offer-selector">
           <input class="event__offer-checkbox  visually-hidden" id="event-offer-seats-1" type="checkbox" name="event-offer-seats">
           <label class="event__offer-label" for="event-offer-seats-1">
-            <span class="event__offer-title">Choose seats</span>
+            <span class="event__offer-title">${offers.offers[3].title}</span>
             &plus;&euro;&nbsp;
-            <span class="event__offer-price">5</span>
+            <span class="event__offer-price">${offers.offers[3].price}</span>
           </label>
         </div>
 
         <div class="event__offer-selector">
           <input class="event__offer-checkbox  visually-hidden" id="event-offer-train-1" type="checkbox" name="event-offer-train">
           <label class="event__offer-label" for="event-offer-train-1">
-            <span class="event__offer-title">Travel by train</span>
+            <span class="event__offer-title">${offers.offers[4].title}</span>
             &plus;&euro;&nbsp;
-            <span class="event__offer-price">40</span>
+            <span class="event__offer-price">${offers.offers[4].price}</span>
           </label>
         </div>
       </div>

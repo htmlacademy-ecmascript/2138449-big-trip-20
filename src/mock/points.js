@@ -8,6 +8,31 @@ const offersMock = [
         id: '1',
         title: 'Switch to comfort',
         price: 80
+      },
+      {
+        id: '11',
+        title: 'Add luggage',
+        price: 40
+      },
+      {
+        id: '111',
+        title: 'Choose seats',
+        price: 20
+      },
+      {
+        id: '1111',
+        title: 'Travel by plane',
+        price: 120
+      },
+      {
+        id: '11111',
+        title: 'Choose wagon',
+        price: 30
+      },
+      {
+        id: '1111',
+        title: 'Upgrade to VIP',
+        price: 200
       }
     ]
   },
@@ -23,6 +48,26 @@ const offersMock = [
         id: '4',
         title: 'Travel by train',
         price: 40
+      },
+      {
+        id: '44',
+        title: 'Switch to comfort',
+        price: 80
+      },
+      {
+        id: '123',
+        title: 'Choose seats',
+        price: 50
+      },
+      {
+        id: '444',
+        title: 'Switch to VIP',
+        price: 160
+      },
+      {
+        id: '123',
+        title: 'Choose class',
+        price: 90
       }
     ]
   },
@@ -33,7 +78,57 @@ const offersMock = [
         id: '3',
         title: 'Choose seats',
         price: 20,
-      }
+      },
+      {
+        id: '33',
+        title: 'Switch to comfort',
+        price: 60
+      },
+      {
+        id: '333',
+        title: 'Add luggage',
+        price: 42
+      },
+      {
+        id: '3333',
+        title: 'Book nearby seats',
+        price: 139
+      },
+      {
+        id: '333',
+        title: 'Upgrade to bussines',
+        price: 92
+      },
+    ]
+  },
+  {
+    type: 'drive',
+    offers: [
+      {
+        id: '5',
+        title: 'Add luggage',
+        price: 10,
+      },
+      {
+        id: '55',
+        title: 'Choose car',
+        price: 120,
+      },
+      {
+        id: '555',
+        title: 'Choose driver',
+        price: 100,
+      },
+      {
+        id: '5555',
+        title: 'Choose way',
+        price: 150,
+      },
+      {
+        id: '55555',
+        title: 'Choose class',
+        price: 60,
+      },
     ]
   }
 ];
@@ -75,6 +170,17 @@ const destinationsMock = [
         description: 'Amsterdam is a city on the water'
       }
     ]
+  },
+  {
+    id: '400',
+    description: 'Vake park is great.',
+    name: 'Tbilisi',
+    pictures: [
+      {
+        src: 'https://loremflickr.com/248/152?random=868668393',
+        description: 'Tbilisi is the capital of Georgia'
+      }
+    ]
   }
 ];
 
@@ -108,6 +214,16 @@ const baseMockPoints = [
     isFavorite: false,
     offers: offersMock[1], // ?
     type: 'flight',
+  },
+  {
+    id: '2',
+    basePrice: 153,
+    dateFrom: '2022-10-08T02:05:16.735Z',
+    dateTo: '2022-10-13T14:23:08.155Z',
+    destination: destinationsMock[3], // ?
+    isFavorite: false,
+    offers: offersMock[3], // ?
+    type: 'drive',
   },
 ];
 
