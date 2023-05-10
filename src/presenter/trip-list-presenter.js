@@ -9,18 +9,21 @@ export default class ListPresenter {
   boardComponent = new ListView();
   pointListComponent = new PointListView();
 
-  constructor({boardContainer}) {
+  constructor({boardContainer, pointsModel}) {
     this.boardContainer = boardContainer;
+    this.pointsModel = pointsModel;
   }
 
   init() {
+    this.boardPoints = [...this.pointsModel.getPoints()];
+
     render(this.boardComponent, this.boardContainer);
     render(new SortView(), this.boardComponent.getElement());
     render(this.pointListComponent, this.boardContainer);
-    render(new PointEditView, this.pointListComponent.getElement());
+    render(new PointEditView({point: this.boardPoints[0]}), this.pointListComponent.getElement());
 
-    for (let i = 0; i < 3; i++) {
-      render(new NewPointView, this.pointListComponent.getElement());
+    for (let i = 0; i < this.boardPoints.length; i++) {
+      render(new NewPointView({point: this.boardPoints[i]}), this.pointListComponent.getElement());
     }
   }
 }
