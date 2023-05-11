@@ -1,5 +1,5 @@
-import { createElement } from '../render';
 import { humanizePointDueDate, getPointDuration } from '../utils';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const MOUNTH_DAY = 'MMM DD';
 const HOUR_MIN = 'HH:mm';
@@ -53,24 +53,16 @@ function createNewPointTemplate(data) {
 </li>`);
 }
 
-export default class NewPointView {
+export default class NewPointView extends AbstractView {
+  #point = null;
+
   constructor ({point}) {
-    this.point = point;
+    super();
+    this.#point = point;
   }
 
-  getTemplate() {
-    return createNewPointTemplate(this.point);
+  get template() {
+    return createNewPointTemplate(this.#point);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
 }

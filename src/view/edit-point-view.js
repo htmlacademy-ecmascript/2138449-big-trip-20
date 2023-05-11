@@ -1,5 +1,5 @@
-import { createElement } from '../render';
 import { humanizePointDueDate } from '../utils';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const DATE_FORMAT = 'DD/MM/YY HH:mm';
 const DEFAULT_TYPE = 'flight';
@@ -177,25 +177,17 @@ function createEditPointTemplate(point) {
 </form>`);
 }
 
-export default class PointEditView {
+export default class PointEditView extends AbstractView {
+  #point = null;
+
   constructor ({point = DEFAULT_POINT}) {
-    this.point = point;
+    super();
+    this.#point = point;
   }
 
-  getTemplate() {
-    return createEditPointTemplate(this.point);
+  get template() {
+    return createEditPointTemplate(this.#point);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
 }
 
