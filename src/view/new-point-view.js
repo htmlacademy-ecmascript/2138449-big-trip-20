@@ -10,6 +10,14 @@ function createNewPointTemplate(data) {
 
   const favoriteClassName = isFavorite ? 'event__favorite-btn--active' : '';
 
+  function createOfferTemplate(wayoffers) {
+    return `<li class="event__offer">
+    <span class="event__offer-title">${wayoffers.offers[1].title}</span>
+    &plus;&euro;&nbsp;
+    <span class="event__offer-price">${wayoffers.offers[1].price}</span>
+  </li>`;
+  }
+
   return (/*html*/`<li class="trip-events__item">
   <div class="event">
     <time class="event__date" datetime="2019-03-18">${humanizePointDueDate(dateFrom, MOUNTH_DAY)}</time>
@@ -30,11 +38,7 @@ function createNewPointTemplate(data) {
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
-      <li class="event__offer">
-        <span class="event__offer-title">${offers.offers[1].title}</span>
-        &plus;&euro;&nbsp;
-        <span class="event__offer-price">${offers.offers[1].price}</span>
-      </li>
+    ${createOfferTemplate(offers)}
     </ul>
     <button class="event__favorite-btn ${favoriteClassName}" type="button">
       <span class="visually-hidden">Add to favorite</span>
