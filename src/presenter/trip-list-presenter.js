@@ -6,24 +6,29 @@ import SortView from '../view/sort-view.js';
 import ListView from '../view/list-view.js';
 
 export default class ListPresenter {
-  boardComponent = new ListView();
-  pointListComponent = new PointListView();
+  #boardContainer = null;
+  #pointsModel = null;
+
+  #boardComponent = new ListView();
+  #pointListComponent = new PointListView();
+
+  #boardPoints = [];
 
   constructor({boardContainer, pointsModel}) {
-    this.boardContainer = boardContainer;
-    this.pointsModel = pointsModel;
+    this.#boardContainer = boardContainer;
+    this.#pointsModel = pointsModel;
   }
 
   init() {
-    this.boardPoints = [...this.pointsModel.getPoints()];
+    this.#boardPoints = [...this.#pointsModel.points];
 
-    render(this.boardComponent, this.boardContainer);
-    render(new SortView(), this.boardComponent.element);
-    render(this.pointListComponent, this.boardComponent.element); // ???
-    render(new PointEditView({point: this.boardPoints[0]}), this.pointListComponent.element);
+    render(this.#boardComponent, this.#boardContainer);
+    render(new SortView(), this.#boardComponent.element);
+    render(this.#pointListComponent, this.#boardComponent.element); // ???
+    render(new PointEditView({point: this.#boardPoints[0]}), this.#pointListComponent.element);
 
-    for (let i = 0; i < this.boardPoints.length; i++) {
-      render(new NewPointView({point: this.boardPoints[i]}), this.pointListComponent.element);
+    for (let i = 0; i < this.#boardPoints.length; i++) {
+      render(new NewPointView({point: this.#boardPoints[i]}), this.#pointListComponent.element);
     }
   }
 }
