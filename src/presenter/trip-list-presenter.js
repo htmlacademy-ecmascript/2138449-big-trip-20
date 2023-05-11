@@ -25,10 +25,16 @@ export default class ListPresenter {
     render(this.#boardComponent, this.#boardContainer);
     render(new SortView(), this.#boardComponent.element);
     render(this.#pointListComponent, this.#boardComponent.element); // ???
-    render(new PointEditView({point: this.#boardPoints[0]}), this.#pointListComponent.element);
+    //render(new PointEditView({point: this.#boardPoints[0]}), this.#pointListComponent.element);
 
     for (let i = 0; i < this.#boardPoints.length; i++) {
-      render(new NewPointView({point: this.#boardPoints[i]}), this.#pointListComponent.element);
+      //render(new NewPointView({point: this.#boardPoints[i]}), this.#pointListComponent.element);
+      this.#renderPoint(this.#boardPoints[i]);
     }
+  }
+
+  #renderPoint(point) {
+    const pointComponent = new NewPointView({point});
+    render(pointComponent, this.#pointListComponent.element);
   }
 }
