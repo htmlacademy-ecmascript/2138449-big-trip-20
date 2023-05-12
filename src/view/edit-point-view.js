@@ -68,7 +68,8 @@ function createEditPointTemplate(point) {
 </div>`;
   }
 
-  return (/*html*/`<form class="event event--edit" action="#" method="post">
+  return (/*html*/`<li class="trip-events__item">
+  <form class="event event--edit" action="#" method="post">
   <header class="event__header">
     <div class="event__type-wrapper">
       <label class="event__type  event__type-btn" for="event-type-toggle-1">
@@ -174,20 +175,28 @@ function createEditPointTemplate(point) {
       <p class="event__destination-description">${destination.description}</p>
     </section>
   </section>
-</form>`);
+</form></li>`);
 }
 
 export default class PointEditView extends AbstractView {
   #point = null;
   #handleFormSubmit = null;
+  #handleFormCancel = null;
 
-  constructor ({point = DEFAULT_POINT, onFormSubmit}) {
+  constructor ({point = DEFAULT_POINT, onFormSubmit, onFormCancel}) {
     super();
     this.#point = point;
     this.#handleFormSubmit = onFormSubmit;
+    this.#handleFormCancel = onFormCancel;
 
     this.element.querySelector('form')
       .addEventListener('submit', this.#formSubmitHandler);
+
+    this.element.querySelector('.event__reset-btn')
+      .addEventListener('click', this.#formCancelHandler);
+
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#formCancelHandler);
   }
 
   get template() {
@@ -197,6 +206,11 @@ export default class PointEditView extends AbstractView {
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormSubmit();
+  };
+
+  #formCancelHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormCancel();
   };
 }
 
