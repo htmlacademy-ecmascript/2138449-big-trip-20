@@ -1,5 +1,5 @@
-import { createElement } from '../render';
 import { humanizePointDueDate } from '../utils';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const DATE_FORMAT = 'DD/MM/YY HH:mm';
 const DEFAULT_TYPE = 'flight';
@@ -19,7 +19,57 @@ function createEditPointTemplate(point) {
   const dateStart = humanizePointDueDate(dateFrom, DATE_FORMAT);
   const dateEnd = humanizePointDueDate(dateTo, DATE_FORMAT);
 
-  return (/*html*/`<form class="event event--edit" action="#" method="post">
+  function createOffersTemplate() {
+    return /*html*/`<div class="event__available-offers">
+ <div class="event__offer-selector">
+   <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
+   <label class="event__offer-label" for="event-offer-luggage-1">
+     <span class="event__offer-title">${offers.offers[0].title}</span>
+     &plus;&euro;&nbsp;
+     <span class="event__offer-price">${offers.offers[0].price}</span>
+   </label>
+ </div>
+
+ <div class="event__offer-selector">
+   <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-1" type="checkbox" name="event-offer-comfort" checked>
+   <label class="event__offer-label" for="event-offer-comfort-1">
+     <span class="event__offer-title">${offers.offers[1].title}</span>
+     &plus;&euro;&nbsp;
+     <span class="event__offer-price">${offers.offers[1].price}</span>
+   </label>
+ </div>
+
+ <div class="event__offer-selector">
+   <input class="event__offer-checkbox  visually-hidden" id="event-offer-meal-1" type="checkbox" name="event-offer-meal">
+   <label class="event__offer-label" for="event-offer-meal-1">
+     <span class="event__offer-title">${offers.offers[2].title}</span>
+     &plus;&euro;&nbsp;
+     <span class="event__offer-price">${offers.offers[2].price}</span>
+   </label>
+ </div>
+
+ <div class="event__offer-selector">
+   <input class="event__offer-checkbox  visually-hidden" id="event-offer-seats-1" type="checkbox" name="event-offer-seats">
+   <label class="event__offer-label" for="event-offer-seats-1">
+     <span class="event__offer-title">${offers.offers[3].title}</span>
+     &plus;&euro;&nbsp;
+     <span class="event__offer-price">${offers.offers[3].price}</span>
+   </label>
+ </div>
+
+ <div class="event__offer-selector">
+   <input class="event__offer-checkbox  visually-hidden" id="event-offer-train-1" type="checkbox" name="event-offer-train">
+   <label class="event__offer-label" for="event-offer-train-1">
+     <span class="event__offer-title">${offers.offers[4].title}</span>
+     &plus;&euro;&nbsp;
+     <span class="event__offer-price">${offers.offers[4].price}</span>
+   </label>
+ </div>
+</div>`;
+  }
+
+  return (/*html*/`<li class="trip-events__item">
+  <form class="event event--edit" action="#" method="post">
   <header class="event__header">
     <div class="event__type-wrapper">
       <label class="event__type  event__type-btn" for="event-type-toggle-1">
@@ -117,53 +167,7 @@ function createEditPointTemplate(point) {
   <section class="event__details">
     <section class="event__section  event__section--offers">
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-
-      <div class="event__available-offers">
-        <div class="event__offer-selector">
-          <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
-          <label class="event__offer-label" for="event-offer-luggage-1">
-            <span class="event__offer-title">${offers.offers[0].title}</span>
-            &plus;&euro;&nbsp;
-            <span class="event__offer-price">${offers.offers[0].price}</span>
-          </label>
-        </div>
-
-        <div class="event__offer-selector">
-          <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-1" type="checkbox" name="event-offer-comfort" checked>
-          <label class="event__offer-label" for="event-offer-comfort-1">
-            <span class="event__offer-title">${offers.offers[1].title}</span>
-            &plus;&euro;&nbsp;
-            <span class="event__offer-price">${offers.offers[1].price}</span>
-          </label>
-        </div>
-
-        <div class="event__offer-selector">
-          <input class="event__offer-checkbox  visually-hidden" id="event-offer-meal-1" type="checkbox" name="event-offer-meal">
-          <label class="event__offer-label" for="event-offer-meal-1">
-            <span class="event__offer-title">${offers.offers[2].title}</span>
-            &plus;&euro;&nbsp;
-            <span class="event__offer-price">${offers.offers[2].price}</span>
-          </label>
-        </div>
-
-        <div class="event__offer-selector">
-          <input class="event__offer-checkbox  visually-hidden" id="event-offer-seats-1" type="checkbox" name="event-offer-seats">
-          <label class="event__offer-label" for="event-offer-seats-1">
-            <span class="event__offer-title">${offers.offers[3].title}</span>
-            &plus;&euro;&nbsp;
-            <span class="event__offer-price">${offers.offers[3].price}</span>
-          </label>
-        </div>
-
-        <div class="event__offer-selector">
-          <input class="event__offer-checkbox  visually-hidden" id="event-offer-train-1" type="checkbox" name="event-offer-train">
-          <label class="event__offer-label" for="event-offer-train-1">
-            <span class="event__offer-title">${offers.offers[4].title}</span>
-            &plus;&euro;&nbsp;
-            <span class="event__offer-price">${offers.offers[4].price}</span>
-          </label>
-        </div>
-      </div>
+      ${createOffersTemplate()}
     </section>
 
     <section class="event__section  event__section--destination">
@@ -171,27 +175,42 @@ function createEditPointTemplate(point) {
       <p class="event__destination-description">${destination.description}</p>
     </section>
   </section>
-</form>`);
+</form></li>`);
 }
 
-export default class PointEditView {
-  constructor ({point = DEFAULT_POINT}) {
-    this.point = point;
+export default class PointEditView extends AbstractView {
+  #point = null;
+  #handleFormSubmit = null;
+  #handleFormCancel = null;
+
+  constructor ({point = DEFAULT_POINT, onFormSubmit, onFormCancel}) {
+    super();
+    this.#point = point;
+    this.#handleFormSubmit = onFormSubmit;
+    this.#handleFormCancel = onFormCancel;
+
+    this.element.querySelector('form')
+      .addEventListener('submit', this.#formSubmitHandler);
+
+    this.element.querySelector('.event__reset-btn')
+      .addEventListener('click', this.#formCancelHandler);
+
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#formCancelHandler);
   }
 
-  getTemplate() {
-    return createEditPointTemplate(this.point);
+  get template() {
+    return createEditPointTemplate(this.#point);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormSubmit();
+  };
 
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
+  #formCancelHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormCancel();
+  };
 }
+
