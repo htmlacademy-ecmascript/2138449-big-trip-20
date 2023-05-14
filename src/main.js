@@ -1,5 +1,6 @@
-import FilterView from './view/filter-view.js';
+//import FilterView from './view/filter-view.js';
 import ListPresenter from './presenter/trip-list-presenter.js';
+import FilterPresenter from './presenter/filter-presenter.js';
 import TripInfoView from './view/trip-info-view.js';
 import PointsModel from './model/point-model.js';
 import { render, RenderPosition } from './framework/render.js';
@@ -17,7 +18,13 @@ const listPresenter = new ListPresenter({
   pointsModel,
 });
 
+const filterPresenter = new FilterPresenter({
+  container: filterElement,
+  pointsModel,
+});
+
 render(new TripInfoView(), tripInfoElement, RenderPosition.AFTERBEGIN);
-render(new FilterView(), filterElement);
+//render(new FilterView(), filterElement);
 
 listPresenter.init();
+filterPresenter.init();
