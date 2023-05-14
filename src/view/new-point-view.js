@@ -1,4 +1,4 @@
-import { humanizePointDueDate, getPointDuration } from '../utils';
+import { humanizePointDueDate, getPointDuration } from '../utils/point.js';
 import AbstractView from '../framework/view/abstract-view.js';
 
 const MOUNTH_DAY = 'MMM DD';

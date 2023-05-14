@@ -4,6 +4,7 @@ import NewPointView from '../view/new-point-view.js';
 import PointListView from '../view/point-list-view.js';
 import SortView from '../view/sort-view.js';
 import ListView from '../view/list-view.js';
+import NoPointsView from '../view/no-points-view.js';
 
 export default class ListPresenter {
   #boardContainer = null;
@@ -65,6 +66,12 @@ export default class ListPresenter {
 
   #renderBoard() {
     render(this.#boardComponent, this.#boardContainer);
+
+    if (!this.#boardPoints.length) { // Такая разметка должна быть только для фильтра Everynting
+      render(new NoPointsView, this.#pointListComponent.element);
+      return;
+    }
+
     render(new SortView(), this.#boardComponent.element);
     render(this.#pointListComponent, this.#boardComponent.element);
 

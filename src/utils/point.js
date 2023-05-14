@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
-//import relativeTime from 'dayjs/plugin/relativeTime';
 
 dayjs.extend(duration);
 
@@ -15,10 +14,6 @@ const MSEC_IN_DAY = HOUR_IN_DAY * MSEC_IN_HOUR;
 const DAY_HOUR_MIN_FORMAT = 'DD[D] HH[H] mm[M]';
 const HOUR_MIN_FORMAT = 'HH[H] mm[M]';
 const MIN_FORMAT = 'mm[M]';
-
-function getRandomArrayElement(items) {
-  return items[Math.floor(Math.random() * items.length)];
-}
 
 function humanizePointDueDate(dueDate, dateFormat) {
   return dueDate ? dayjs(dueDate).format(dateFormat) : '';
@@ -44,4 +39,4 @@ function getPointDuration(dateFrom, dateTo) {
   return pointDuration;
 }
 
-export {getRandomArrayElement, humanizePointDueDate, getPointDuration};
+export {humanizePointDueDate, getPointDuration};
