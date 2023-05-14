@@ -22,7 +22,6 @@ export default class ListPresenter {
 
   init() {
     this.#boardPoints = [...this.#pointsModel.points];
-
     this.#renderBoard();
   }
 

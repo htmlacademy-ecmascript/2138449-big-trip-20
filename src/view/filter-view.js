@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { capitalize } from '../utils/common.js';
+import {capitalize} from '../utils/common.js';
 
 function createFilterItem(filter) {
   return /*html*/`<div class="trip-filters__filter">
