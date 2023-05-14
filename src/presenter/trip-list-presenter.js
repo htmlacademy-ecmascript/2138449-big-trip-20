@@ -22,13 +22,7 @@ export default class ListPresenter {
   init() {
     this.#boardPoints = [...this.#pointsModel.points];
 
-    render(this.#boardComponent, this.#boardContainer);
-    render(new SortView(), this.#boardComponent.element);
-    render(this.#pointListComponent, this.#boardComponent.element);
-
-    for (let i = 0; i < this.#boardPoints.length; i++) {
-      this.#renderPoint(this.#boardPoints[i]);
-    }
+    this.#renderBoard();
   }
 
   #renderPoint(point) {
@@ -67,5 +61,15 @@ export default class ListPresenter {
     }
 
     render(pointComponent, this.#pointListComponent.element);
+  }
+
+  #renderBoard() {
+    render(this.#boardComponent, this.#boardContainer);
+    render(new SortView(), this.#boardComponent.element);
+    render(this.#pointListComponent, this.#boardComponent.element);
+
+    for (let i = 0; i < this.#boardPoints.length; i++) {
+      this.#renderPoint(this.#boardPoints[i]);
+    }
   }
 }
