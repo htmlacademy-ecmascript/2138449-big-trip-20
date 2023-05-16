@@ -1,4 +1,4 @@
-import { getRandomArrayElement } from '../utils.js';
+import { getRandomArrayElement } from '../utils/common.js';
 
 const offersMock = [
   {
@@ -188,8 +188,8 @@ const baseMockPoints = [
   {
     id: '23',
     basePrice: 195,
-    dateFrom: '2022-09-08T02:05:16.735Z',
-    dateTo: '2022-09-13T14:23:08.155Z',
+    dateFrom: '2024-09-08T02:05:16.735Z',
+    dateTo: '2024-09-13T14:23:08.155Z',
     destination: destinationsMock[1], // ?
     isFavorite: false,
     offers: offersMock[0], // ?
@@ -198,8 +198,8 @@ const baseMockPoints = [
   {
     id: '68',
     basePrice: 273,
-    dateFrom: '2021-01-01T12:00:10.001Z',
-    dateTo: '2021-01-15T14:40:10.235Z',
+    dateFrom: '2023-05-14T12:22:10.001Z',
+    dateTo: '2023-05-15T14:40:10.235Z',
     destination: destinationsMock[2], // ?
     isFavorite: true,
     offers: offersMock[2], // ?
