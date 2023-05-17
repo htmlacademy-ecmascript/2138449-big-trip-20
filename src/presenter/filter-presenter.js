@@ -11,7 +11,7 @@ export default class FilterPresenter {
     this.#container = container;
     this.#pointsModel = pointsModel;
 
-    this.#filters = generateFilters(this.#pointsModel.points); //this.#filters = generateFilters(this.#pointsModel.get());
+    this.#filters = generateFilters(this.#pointsModel.points);
 
   }
 
