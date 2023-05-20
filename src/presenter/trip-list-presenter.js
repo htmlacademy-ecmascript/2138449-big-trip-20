@@ -85,9 +85,9 @@ export default class ListPresenter {
       return;
     }
 
-    for (let i = 0; i < this.#boardPoints.length; i++) {
-      this.#renderPoint(this.#boardPoints[i]);
-    }
+    this.#boardPoints.forEach((point) => {
+      this.#renderPoint(point);
+    });
 
     this.#renderSort();
     this.#renderPointList();
