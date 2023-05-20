@@ -1,4 +1,4 @@
-import { render, replace } from '../framework/render.js';
+import { render, replace, RenderPosition } from '../framework/render.js';
 import PointEditView from '../view/edit-point-view.js';
 import NewPointView from '../view/new-point-view.js';
 import PointListView from '../view/point-list-view.js';
@@ -12,6 +12,8 @@ export default class ListPresenter {
 
   #boardComponent = new ListView();
   #pointListComponent = new PointListView();
+  #noPointsComponent = new NoPointsView();
+  #sortComponent = new SortView();
 
   #boardPoints = [];
 
@@ -63,19 +65,31 @@ export default class ListPresenter {
     render(pointComponent, this.#pointListComponent.element);
   }
 
+  #renderNoPoints() {
+    render(this.#noPointsComponent, this.#pointListComponent.element, RenderPosition.AFTERBEGIN);
+  }
+
+  #renderSort() {
+    render(this.#sortComponent, this.#boardComponent.element, RenderPosition.AFTERBEGIN);
+  }
+
+  #renderPointList() {
+    render(this.#pointListComponent, this.#boardComponent.element);
+  }
+
   #renderBoard() {
     render(this.#boardComponent, this.#boardContainer);
 
     if (!this.#boardPoints.length) { // Такая разметка должна быть только для фильтра Everynting
-      render(new NoPointsView, this.#pointListComponent.element);
+      this.#renderNoPoints();
       return;
     }
-
-    render(new SortView(), this.#boardComponent.element);
-    render(this.#pointListComponent, this.#boardComponent.element);
 
     for (let i = 0; i < this.#boardPoints.length; i++) {
       this.#renderPoint(this.#boardPoints[i]);
     }
+
+    this.#renderSort();
+    this.#renderPointList();
   }
 }
