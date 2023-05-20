@@ -65,6 +65,12 @@ export default class ListPresenter {
     render(pointComponent, this.#pointListComponent.element);
   }
 
+  #renderPoints() {
+    this.#boardPoints.forEach((point) => {
+      this.#renderPoint(point);
+    });
+  }
+
   #renderNoPoints() {
     render(this.#noPointsComponent, this.#pointListComponent.element, RenderPosition.AFTERBEGIN);
   }
@@ -85,11 +91,8 @@ export default class ListPresenter {
       return;
     }
 
-    this.#boardPoints.forEach((point) => {
-      this.#renderPoint(point);
-    });
-
     this.#renderSort();
     this.#renderPointList();
+    this.#renderPoints();
   }
 }
