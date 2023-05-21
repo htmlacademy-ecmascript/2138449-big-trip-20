@@ -28,14 +28,15 @@ export default class ListPresenter {
     this.#renderBoard();
   }
 
-  #handlePointChange(updatedPoint) {
+  #handlePointChange = (updatedPoint) => {
     this.#boardPoints = updateItem(this.#boardPoints, updatedPoint);
     this.#pointPresenters.get(updatedPoint.id).init(updatedPoint);
-  }
+  };
 
   #renderPoint(point) {
     const pointPresenter = new PointPresenter({
       pointListContainer: this.#pointListComponent.element,
+      onDataChange: this.#handlePointChange
     });
     pointPresenter.init(point);
     this.#pointPresenters.set(point.id, pointPresenter);
