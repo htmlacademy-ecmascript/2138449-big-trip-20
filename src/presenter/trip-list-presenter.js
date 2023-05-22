@@ -13,7 +13,7 @@ export default class ListPresenter {
   #boardComponent = new ListView();
   #pointListComponent = new PointListView();
   #noPointsComponent = new NoPointsView();
-  #sortComponent = new SortView();
+  #sortComponent = null;
 
   #boardPoints = [];
   #pointPresenters = new Map();
@@ -62,7 +62,16 @@ export default class ListPresenter {
     this.#pointPresenters.clear();
   }
 
+  #handleSortTypeChange = (sortType) => {
+    // - Сортируем задачи
+    // - Очищаем список
+    // - Рендерим список заново
+  };
+
   #renderSort() {
+    this.#sortComponent = new SortView({
+      onSortTypeChange: this.#handleSortTypeChange
+    });
     render(this.#sortComponent, this.#boardComponent.element, RenderPosition.AFTERBEGIN);
   }
 
