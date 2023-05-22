@@ -103,6 +103,7 @@ export default class ListPresenter {
 
   #renderPointList() {
     render(this.#pointListComponent, this.#boardComponent.element);
+    this.#renderPoints();
   }
 
   #renderBoard() {
@@ -115,6 +116,5 @@ export default class ListPresenter {
 
     this.#renderSort();
     this.#renderPointList();
-    this.#renderPoints();
   }
 }
