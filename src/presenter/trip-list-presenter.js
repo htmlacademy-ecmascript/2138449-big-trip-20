@@ -5,6 +5,8 @@ import ListView from '../view/list-view.js';
 import NoPointsView from '../view/no-points-view.js';
 import PointPresenter from './point-presenter.js';
 import { updateItem } from '../utils/common.js';
+import { sortByTime, sortByPrice } from '../utils/point.js';
+import { SortType } from '../const.js';
 
 export default class ListPresenter {
   #boardContainer = null;
@@ -17,6 +19,8 @@ export default class ListPresenter {
 
   #boardPoints = [];
   #pointPresenters = new Map();
+  #currentSortType = SortType.DAY;
+  #sourcedBoardPoints = [];
 
   constructor({boardContainer, pointsModel}) {
     this.#boardContainer = boardContainer;
@@ -25,6 +29,7 @@ export default class ListPresenter {
 
   init() {
     this.#boardPoints = [...this.#pointsModel.points];
+    this.#sourcedBoardPoints = [...this.#pointsModel.points];
     this.#renderBoard();
   }
 
@@ -34,6 +39,7 @@ export default class ListPresenter {
 
   #handlePointChange = (updatedPoint) => {
     this.#boardPoints = updateItem(this.#boardPoints, updatedPoint);
+    this.#sourcedBoardPoints = updateItem(this.#sourcedBoardPoints, updatedPoint);
     this.#pointPresenters.get(updatedPoint.id).init(updatedPoint);
   };
 
@@ -62,8 +68,28 @@ export default class ListPresenter {
     this.#pointPresenters.clear();
   }
 
+  #sortPoints(sortType) {
+
+    switch(sortType) {
+      case SortType.TIME:
+        this.#boardPoints.sort(sortByTime);
+        break;
+      case SortType.PRICE:
+        this.#boardPoints.sort(sortByPrice);
+        break;
+      default:
+        this.#boardPoints = [...this.#sourcedBoardPoints];
+    }
+
+    this.#currentSortType = sortType;
+  }
+
   #handleSortTypeChange = (sortType) => {
-    // - Сортируем задачи
+    if (this.#currentSortType === sortType) {
+      return;
+    }
+    this.#sortPoints(sortType);
+
     // - Очищаем список
     // - Рендерим список заново
   };
