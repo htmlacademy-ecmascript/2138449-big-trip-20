@@ -72,10 +72,10 @@ export default class ListPresenter {
 
     switch(sortType) {
       case SortType.TIME:
-        this.#boardPoints.sort(sortByTime);
+        this.#boardPoints = [...sortByTime(this.#boardPoints)];
         break;
       case SortType.PRICE:
-        this.#boardPoints.sort(sortByPrice);
+        this.#boardPoints = [...sortByPrice(this.#boardPoints)];
         break;
       default:
         this.#boardPoints = [...this.#sourcedBoardPoints];
@@ -88,10 +88,10 @@ export default class ListPresenter {
     if (this.#currentSortType === sortType) {
       return;
     }
-    this.#sortPoints(sortType);
 
-    // - Очищаем список
-    // - Рендерим список заново
+    this.#sortPoints(sortType);
+    this.#clearPointList();
+    this.#renderPointList();
   };
 
   #renderSort() {
