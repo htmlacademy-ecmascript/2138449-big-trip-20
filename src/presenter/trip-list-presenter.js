@@ -5,6 +5,8 @@ import ListView from '../view/list-view.js';
 import NoPointsView from '../view/no-points-view.js';
 import PointPresenter from './point-presenter.js';
 import { updateItem } from '../utils/common.js';
+import { sortByTime, sortByPrice } from '../utils/point.js';
+import { SortType } from '../const.js';
 
 export default class ListPresenter {
   #boardContainer = null;
@@ -13,10 +15,12 @@ export default class ListPresenter {
   #boardComponent = new ListView();
   #pointListComponent = new PointListView();
   #noPointsComponent = new NoPointsView();
-  #sortComponent = new SortView();
+  #sortComponent = null;
 
   #boardPoints = [];
   #pointPresenters = new Map();
+  #currentSortType = SortType.DAY;
+  #sourcedBoardPoints = [];
 
   constructor({boardContainer, pointsModel}) {
     this.#boardContainer = boardContainer;
@@ -25,6 +29,7 @@ export default class ListPresenter {
 
   init() {
     this.#boardPoints = [...this.#pointsModel.points];
+    this.#sourcedBoardPoints = [...this.#pointsModel.points];
     this.#renderBoard();
   }
 
@@ -34,6 +39,7 @@ export default class ListPresenter {
 
   #handlePointChange = (updatedPoint) => {
     this.#boardPoints = updateItem(this.#boardPoints, updatedPoint);
+    this.#sourcedBoardPoints = updateItem(this.#sourcedBoardPoints, updatedPoint);
     this.#pointPresenters.get(updatedPoint.id).init(updatedPoint);
   };
 
@@ -62,24 +68,53 @@ export default class ListPresenter {
     this.#pointPresenters.clear();
   }
 
+  #sortPoints(sortType) {
+
+    switch(sortType) {
+      case SortType.TIME:
+        this.#boardPoints = [...sortByTime(this.#boardPoints)];
+        break;
+      case SortType.PRICE:
+        this.#boardPoints = [...sortByPrice(this.#boardPoints)];
+        break;
+      default:
+        this.#boardPoints = [...this.#sourcedBoardPoints];
+    }
+
+    this.#currentSortType = sortType;
+  }
+
+  #handleSortTypeChange = (sortType) => {
+    if (this.#currentSortType === sortType) {
+      return;
+    }
+
+    this.#sortPoints(sortType);
+    this.#clearPointList();
+    this.#renderPointList();
+  };
+
   #renderSort() {
+    this.#sortComponent = new SortView({
+      onSortTypeChange: this.#handleSortTypeChange
+    });
     render(this.#sortComponent, this.#boardComponent.element, RenderPosition.AFTERBEGIN);
   }
 
   #renderPointList() {
     render(this.#pointListComponent, this.#boardComponent.element);
+    this.#renderPoints();
   }
 
   #renderBoard() {
     render(this.#boardComponent, this.#boardContainer);
 
-    if (!this.#boardPoints.length) { // Такая разметка должна быть только для фильтра Everynting
+    if (!this.#boardPoints.length) {
       this.#renderNoPoints();
       return;
     }
 
     this.#renderSort();
     this.#renderPointList();
-    this.#renderPoints();
   }
 }

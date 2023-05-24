@@ -6,4 +6,12 @@ const FilterType = {
   FAVORITES: 'favorites',
 };
 
-export {FilterType};
+const SortType = {
+  DAY:  'day',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFERS: 'offers',
+};
+
+export {FilterType, SortType};
