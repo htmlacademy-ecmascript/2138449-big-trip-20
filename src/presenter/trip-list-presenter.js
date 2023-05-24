@@ -1,10 +1,10 @@
-import { render, replace } from '../framework/render.js';
-import PointEditView from '../view/edit-point-view.js';
-import NewPointView from '../view/new-point-view.js';
+import { render, RenderPosition } from '../framework/render.js';
 import PointListView from '../view/point-list-view.js';
 import SortView from '../view/sort-view.js';
 import ListView from '../view/list-view.js';
 import NoPointsView from '../view/no-points-view.js';
+import PointPresenter from './point-presenter.js';
+import { updateItem } from '../utils/common.js';
 
 export default class ListPresenter {
   #boardContainer = null;
@@ -12,8 +12,11 @@ export default class ListPresenter {
 
   #boardComponent = new ListView();
   #pointListComponent = new PointListView();
+  #noPointsComponent = new NoPointsView();
+  #sortComponent = new SortView();
 
   #boardPoints = [];
+  #pointPresenters = new Map();
 
   constructor({boardContainer, pointsModel}) {
     this.#boardContainer = boardContainer;
@@ -25,57 +28,58 @@ export default class ListPresenter {
     this.#renderBoard();
   }
 
+  #handleModeChange = () => {
+    this.#pointPresenters.forEach((presenter) => presenter.resetView());
+  };
+
+  #handlePointChange = (updatedPoint) => {
+    this.#boardPoints = updateItem(this.#boardPoints, updatedPoint);
+    this.#pointPresenters.get(updatedPoint.id).init(updatedPoint);
+  };
+
   #renderPoint(point) {
-    const escKeyDownHandler = (evt) => {
-      if (evt.key === 'Escape') {
-        evt.preventDefault();
-        replaceFormToPoint();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
-    };
-    const pointComponent = new NewPointView({
-      point,
-      onEditClick: () => {
-        replacePointToForm();
-        document.addEventListener('keydown', escKeyDownHandler);
-      }
+    const pointPresenter = new PointPresenter({
+      pointListContainer: this.#pointListComponent.element,
+      onDataChange: this.#handlePointChange,
+      onModeChange: this.#handleModeChange
     });
-    const pointEditComponent = new PointEditView({
-      point,
-      onFormSubmit: () => {
-        replaceFormToPoint();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      },
-      onFormCancel: () => {
-        replaceFormToPoint();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
+    pointPresenter.init(point);
+    this.#pointPresenters.set(point.id, pointPresenter);
+  }
+
+  #renderPoints() {
+    this.#boardPoints.forEach((point) => {
+      this.#renderPoint(point);
     });
+  }
 
-    function replacePointToForm() {
-      replace(pointEditComponent, pointComponent);
-    }
+  #renderNoPoints() {
+    render(this.#noPointsComponent, this.#pointListComponent.element, RenderPosition.AFTERBEGIN);
+  }
 
-    function replaceFormToPoint() {
-      replace(pointComponent, pointEditComponent);
-    }
+  #clearPointList() {
+    this.#pointPresenters.forEach((presenter) => presenter.destroy());
+    this.#pointPresenters.clear();
+  }
 
-    render(pointComponent, this.#pointListComponent.element);
+  #renderSort() {
+    render(this.#sortComponent, this.#boardComponent.element, RenderPosition.AFTERBEGIN);
+  }
+
+  #renderPointList() {
+    render(this.#pointListComponent, this.#boardComponent.element);
   }
 
   #renderBoard() {
     render(this.#boardComponent, this.#boardContainer);
 
     if (!this.#boardPoints.length) { // Такая разметка должна быть только для фильтра Everynting
-      render(new NoPointsView, this.#pointListComponent.element);
+      this.#renderNoPoints();
       return;
     }
 
-    render(new SortView(), this.#boardComponent.element);
-    render(this.#pointListComponent, this.#boardComponent.element);
-
-    for (let i = 0; i < this.#boardPoints.length; i++) {
-      this.#renderPoint(this.#boardPoints[i]);
-    }
+    this.#renderSort();
+    this.#renderPointList();
+    this.#renderPoints();
   }
 }

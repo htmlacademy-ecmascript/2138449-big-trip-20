@@ -1,4 +1,3 @@
-//import FilterView from './view/filter-view.js';
 import ListPresenter from './presenter/trip-list-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 import TripInfoView from './view/trip-info-view.js';
@@ -24,7 +23,6 @@ const filterPresenter = new FilterPresenter({
 });
 
 render(new TripInfoView(), tripInfoElement, RenderPosition.AFTERBEGIN);
-//render(new FilterView(), filterElement);
 
 listPresenter.init();
 filterPresenter.init();
