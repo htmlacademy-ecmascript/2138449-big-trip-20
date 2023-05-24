@@ -109,7 +109,7 @@ export default class ListPresenter {
   #renderBoard() {
     render(this.#boardComponent, this.#boardContainer);
 
-    if (!this.#boardPoints.length) { // Такая разметка должна быть только для фильтра Everynting
+    if (!this.#boardPoints.length) {
       this.#renderNoPoints();
       return;
     }
