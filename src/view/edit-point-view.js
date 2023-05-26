@@ -71,6 +71,11 @@ function createEditPointTemplate(point) {
 </div>`;
   }
 
+  function createPictureTemplate(pictures) {
+    return pictures.map((picture) =>
+      `<img class="event__photo" src="${picture.src}" alt="Event photo">`).join('');
+  }
+
   return (/*html*/`<li class="trip-events__item">
   <form class="event event--edit" action="#" method="post">
   <header class="event__header">
@@ -176,21 +181,30 @@ function createEditPointTemplate(point) {
     <section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
       <p class="event__destination-description">${destination.description}</p>
+      <div class="event__photos-container">
+        <div class="event__photos-tape">
+        ${createPictureTemplate(destination.pictures)}
+        </div>
+      </div>
     </section>
   </section>
 </form></li>`);
 }
 
 export default class PointEditView extends AbstractStatefulView {
-  #point = null;
+
   #handleFormSubmit = null;
   #handleFormCancel = null;
 
   constructor ({point = DEFAULT_POINT, onFormSubmit, onFormCancel}) {
     super();
-    this.#point = point;
+
     this.#handleFormSubmit = onFormSubmit;
     this.#handleFormCancel = onFormCancel;
+
+    this._setState(PointEditView.parsePointToState({point}));
+
+    this._restoreHandlers();
 
     this.element.querySelector('form')
       .addEventListener('submit', this.#formSubmitHandler);
@@ -203,17 +217,26 @@ export default class PointEditView extends AbstractStatefulView {
   }
 
   get template() {
-    return createEditPointTemplate(this.#point);
+    return createEditPointTemplate(this._state);
+  }
+
+  _restoreHandlers() {
+
   }
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit(this.#point);
+    this.#handleFormSubmit(this._state);
   };
 
   #formCancelHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormCancel();
   };
+
+  static parsePointToState = ({point}) => ({point});
+
+  static parseStateToPoint = (state) => state.point;
 }
 
+ 
