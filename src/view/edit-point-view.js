@@ -20,9 +20,9 @@ const DEFAULT_POINT = {
 function createEditPointTemplate(state) {
   const point = state.state;
 
-  const {dateFrom, dateTo, destination, offers, type, basePrice} = point;
-  const dateStart = humanizePointDueDate(dateFrom, DATE_FORMAT);
-  const dateEnd = humanizePointDueDate(dateTo, DATE_FORMAT);
+  //const {dateFrom, dateTo, destination, offers, type, basePrice} = point;
+  //const dateStart = humanizePointDueDate(dateFrom, DATE_FORMAT);
+  //const dateEnd = humanizePointDueDate(dateTo, DATE_FORMAT);
 
   function createOffersTemplate() {
     return /*html*/`<div class="event__available-offers">
@@ -313,6 +313,10 @@ export default class PointEditView extends AbstractStatefulView {
     });
   };
 
+  /*#dateFromChangeHandler = () => {
+
+  };*/
+
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormSubmit(PointEditView.parseStateToPoint(this._state));
@@ -323,7 +327,7 @@ export default class PointEditView extends AbstractStatefulView {
     this.#handleFormCancel();
   };
 
-  #setDatepickers = () => {
+  /*#setDatepickers = () => {
     this.#datepickerFrom = flatpickr(
       this.element.querySelector('#event-start-time-1'),
       {
@@ -340,7 +344,7 @@ export default class PointEditView extends AbstractStatefulView {
     );
 
     //this.#datepickerTo = flatpickr();
-  };
+  };*/
 
   static parsePointToState = ({point}) => ({point});
 
