@@ -17,7 +17,9 @@ const DEFAULT_POINT = {
   type: DEFAULT_TYPE
 };
 
-function createEditPointTemplate(point) {
+function createEditPointTemplate(state) {
+  const point = state.state;
+
   const {dateFrom, dateTo, destination, offers, type, basePrice} = point;
   const dateStart = humanizePointDueDate(dateFrom, DATE_FORMAT);
   const dateEnd = humanizePointDueDate(dateTo, DATE_FORMAT);
@@ -195,6 +197,8 @@ export default class PointEditView extends AbstractStatefulView {
 
   #handleFormSubmit = null;
   #handleFormCancel = null;
+  #datepickerFrom = null;
+  #datepickerTo = null;
 
   constructor ({point = DEFAULT_POINT, onFormSubmit, onFormCancel}) {
     super();
@@ -205,28 +209,113 @@ export default class PointEditView extends AbstractStatefulView {
     this._setState(PointEditView.parsePointToState({point}));
 
     this._restoreHandlers();
+  }
+
+  get template() {
+    return createEditPointTemplate({
+      state: this._state,
+    });
+  }
+
+  reset = (point) => this.updateElement({point});
+
+  removeElement() {
+    super.removeElement();
+
+    if (this.#datepickerFrom) {
+      this.#datepickerFrom.destroy();
+      this.#datepickerFrom = null;
+    }
+
+    if (this.#datepickerTo) {
+      this.#datepickerTo.destroy();
+      this.#datepickerTo = null;
+    }
+  }
+
+  _restoreHandlers = () => {
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#formCancelHandler);
 
     this.element.querySelector('form')
       .addEventListener('submit', this.#formSubmitHandler);
 
+    this.element.querySelector('.event__type-group')
+      .addEventListener('change', this.#typeInputClick);
+
     this.element.querySelector('.event__reset-btn')
       .addEventListener('click', this.#formCancelHandler);
 
-    this.element.querySelector('.event__rollup-btn')
-      .addEventListener('click', this.#formCancelHandler);
-  }
+    this.element.querySelector('.event__input--destination')
+      .addEventListener('change', this.#destinationInputChange);
 
-  get template() {
-    return createEditPointTemplate(this._state);
-  }
+    const offerBlock = this.element.querySelector('.event__available-offers');
 
-  _restoreHandlers() {
+    if (offerBlock) {
+      offerBlock.addEventListener('change', this.#offerClickHandler);
+    }
 
-  }
+    this.element.querySelector('.event__input--price')
+      .addEventListener('change', this.#priceInputChange);
+
+  };
+
+  #offerClickHandler = (evt) => {
+    evt.preventDefault();
+
+    const checkedBoxes = Array.from(this.element.querySelectorAll('.event__offer-checkbox:checked'));
+
+    this._setState({
+      point: {
+        ...this._state.point,
+        offers: checkedBoxes.map((element) => element.dataset.offerId)
+      }
+    });
+  };
+
+  #priceInputChange = (evt) => {
+    evt.preventDefault();
+
+    this._setState({
+      point: {
+        ...this._state.point,
+        basePrice: evt.target.valueAsNumber
+      }
+    });
+  };
+
+  #typeInputClick = (evt) => {
+    evt.preventDefault();
+
+    this.updateElement({
+      point: {
+        ...this._state.point,
+        type: evt.target.value,
+        offers: []
+      }
+    });
+  };
+
+  #destinationInputChange = (evt) => {
+    evt.preventDefault();
+    const selectedDestination = this.pointDestinations
+      .find((pointDestination) => pointDestination.name === evt.target.value); //???
+
+    const selectedDestinationId = (selectedDestination)
+      ? selectedDestination.id
+      : null;
+
+    this.updateElement({
+      point: {
+        ...this._state.point,
+        destination: selectedDestinationId
+      }
+    });
+  };
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit(this._state);
+    this.#handleFormSubmit(PointEditView.parseStateToPoint(this._state));
   };
 
   #formCancelHandler = (evt) => {
@@ -234,9 +323,27 @@ export default class PointEditView extends AbstractStatefulView {
     this.#handleFormCancel();
   };
 
+  #setDatepickers = () => {
+    this.#datepickerFrom = flatpickr(
+      this.element.querySelector('#event-start-time-1'),
+      {
+        dateFormat: 'd/m/y H:i',
+        defaultDate: this._state.point.dateFrom,
+        onClose: this.#dateFromChangeHandler,
+        enableTime: true,
+        maxDate: this._state.point.dateTo,
+        locale: {
+          firstDayOfWeek: 1,
+        },
+        'time_24hr': true
+      },
+    );
+
+    //this.#datepickerTo = flatpickr();
+  };
+
   static parsePointToState = ({point}) => ({point});
 
   static parseStateToPoint = (state) => state.point;
 }
 
- 
