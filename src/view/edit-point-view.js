@@ -17,12 +17,12 @@ const DEFAULT_POINT = {
   type: DEFAULT_TYPE
 };
 
-function createEditPointTemplate(state) {
-  const point = state.state;
+function createEditPointTemplate({state}) {
+  const {point} = state;
 
-  //const {dateFrom, dateTo, destination, offers, type, basePrice} = point;
-  //const dateStart = humanizePointDueDate(dateFrom, DATE_FORMAT);
-  //const dateEnd = humanizePointDueDate(dateTo, DATE_FORMAT);
+  const {dateFrom, dateTo, destination, offers, type, basePrice} = point;
+  const dateStart = humanizePointDueDate(dateFrom, DATE_FORMAT);
+  const dateEnd = humanizePointDueDate(dateTo, DATE_FORMAT);
 
   function createOffersTemplate() {
     return /*html*/`<div class="event__available-offers">
