@@ -1,6 +1,7 @@
 import { humanizePointDueDate } from '../utils/point.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import flatpickr from 'flatpickr';
+import { CITIES } from '../const.js';
 
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -78,6 +79,11 @@ function createEditPointTemplate({state}) {
       `<img class="event__photo" src="${picture.src}" alt="Event photo">`).join('');
   }
 
+  function createCityTemplate(cities) {
+    return cities.map((city) =>
+      `<option value="${city}"></option>`).join('');
+  }
+
   return (/*html*/`<li class="trip-events__item">
   <form class="event event--edit" action="#" method="post">
   <header class="event__header">
@@ -146,9 +152,7 @@ function createEditPointTemplate({state}) {
       </label>
       <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
       <datalist id="destination-list-1">
-        <option value="Amsterdam"></option>
-        <option value="Geneva"></option>
-        <option value="Chamonix"></option>
+        ${createCityTemplate(CITIES)}
       </datalist>
     </div>
 

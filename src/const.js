@@ -14,4 +14,10 @@ const SortType = {
   OFFERS: 'offers',
 };
 
-export {FilterType, SortType};
+const CITIES = [
+  'Amsterdam',
+  'Geneva',
+  'Chamonix',
+];
+
+export {FilterType, SortType, CITIES};
