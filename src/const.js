@@ -21,4 +21,16 @@ const CITIES = [
   'Tbilisi',
 ];
 
-export {FilterType, SortType, CITIES};
+const POINT_TYPES = [
+  'Taxi',
+  'Bus',
+  'Train',
+  'Ship',
+  'Drive',
+  'Flight',
+  'Check-in',
+  'Sightseeing',
+  'Restaurant',
+];
+
+export {FilterType, SortType, CITIES, POINT_TYPES};
