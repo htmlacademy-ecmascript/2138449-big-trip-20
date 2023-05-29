@@ -18,6 +18,7 @@ const CITIES = [
   'Amsterdam',
   'Geneva',
   'Chamonix',
+  'Tbilisi',
 ];
 
 export {FilterType, SortType, CITIES};
