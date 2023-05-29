@@ -1,9 +1,9 @@
 import { humanizePointDueDate } from '../utils/point.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import flatpickr from 'flatpickr';
-import { CITIES } from '../const.js';
-
+import { CITIES, POINT_TYPES } from '../const.js';
 import 'flatpickr/dist/flatpickr.min.css';
+//import { destinationsMock } from '../mock/points.js';
 
 const DATE_FORMAT = 'DD/MM/YY HH:mm';
 const DEFAULT_TYPE = 'flight';
@@ -22,56 +22,21 @@ function createEditPointTemplate({state}) {
   const {point} = state;
 
   const {dateFrom, dateTo, destination, offers, type, basePrice} = point;
+  //const wayOffers = offers.offers;
   const dateStart = humanizePointDueDate(dateFrom, DATE_FORMAT);
   const dateEnd = humanizePointDueDate(dateTo, DATE_FORMAT);
 
-  function createOffersTemplate() {
-    return /*html*/`<div class="event__available-offers">
- <div class="event__offer-selector">
-   <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
-   <label class="event__offer-label" for="event-offer-luggage-1">
-     <span class="event__offer-title">${offers.offers[0].title}</span>
-     &plus;&euro;&nbsp;
-     <span class="event__offer-price">${offers.offers[0].price}</span>
-   </label>
- </div>
-
- <div class="event__offer-selector">
-   <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-1" type="checkbox" name="event-offer-comfort" checked>
-   <label class="event__offer-label" for="event-offer-comfort-1">
-     <span class="event__offer-title">${offers.offers[1].title}</span>
-     &plus;&euro;&nbsp;
-     <span class="event__offer-price">${offers.offers[1].price}</span>
-   </label>
- </div>
-
- <div class="event__offer-selector">
-   <input class="event__offer-checkbox  visually-hidden" id="event-offer-meal-1" type="checkbox" name="event-offer-meal">
-   <label class="event__offer-label" for="event-offer-meal-1">
-     <span class="event__offer-title">${offers.offers[2].title}</span>
-     &plus;&euro;&nbsp;
-     <span class="event__offer-price">${offers.offers[2].price}</span>
-   </label>
- </div>
-
- <div class="event__offer-selector">
-   <input class="event__offer-checkbox  visually-hidden" id="event-offer-seats-1" type="checkbox" name="event-offer-seats">
-   <label class="event__offer-label" for="event-offer-seats-1">
-     <span class="event__offer-title">${offers.offers[3].title}</span>
-     &plus;&euro;&nbsp;
-     <span class="event__offer-price">${offers.offers[3].price}</span>
-   </label>
- </div>
-
- <div class="event__offer-selector">
-   <input class="event__offer-checkbox  visually-hidden" id="event-offer-train-1" type="checkbox" name="event-offer-train">
-   <label class="event__offer-label" for="event-offer-train-1">
-     <span class="event__offer-title">${offers.offers[4].title}</span>
-     &plus;&euro;&nbsp;
-     <span class="event__offer-price">${offers.offers[4].price}</span>
-   </label>
- </div>
-</div>`;
+  function createOffersTemplate(offersList) {
+    return offersList.map((offer) => `
+      <div class="event__offer-selector">
+        <input class="event__offer-checkbox visually-hidden" id="event-offer-${offer.id}" type="checkbox" name="event-offer-${offer.id}" ${offer.isChecked ? 'checked' : ''}>
+        <label class="event__offer-label" for="event-offer-${offer.id}">
+          <span class="event__offer-title">${offer.title}</span>
+          &plus;&euro;&nbsp;
+          <span class="event__offer-price">${offer.price}</span>
+        </label>
+      </div>
+    `).join('');
   }
 
   function createPictureTemplate(pictures) {
@@ -82,6 +47,14 @@ function createEditPointTemplate({state}) {
   function createCityTemplate(cities) {
     return cities.map((city) =>
       `<option value="${city}"></option>`).join('');
+  }
+
+  function createPointsTypeTemplate(pointTypes) {
+    return pointTypes.map((pointType) =>
+      `<div class="event__type-item">
+       <input id="event-type-${pointType.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${pointType.toLowerCase()}">
+       <label class="event__type-label  event__type-label--${pointType.toLowerCase()}" for="event-type-${pointType.toLowerCase()}-1">${pointType}</label>
+     </div>`).join('');
   }
 
   return (/*html*/`<li class="trip-events__item">
@@ -97,51 +70,7 @@ function createEditPointTemplate({state}) {
       <div class="event__type-list">
         <fieldset class="event__type-group">
           <legend class="visually-hidden">Event type</legend>
-
-          <div class="event__type-item">
-            <input id="event-type-taxi-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="taxi">
-            <label class="event__type-label  event__type-label--taxi" for="event-type-taxi-1">Taxi</label>
-          </div>
-
-          <div class="event__type-item">
-            <input id="event-type-bus-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="bus">
-            <label class="event__type-label  event__type-label--bus" for="event-type-bus-1">Bus</label>
-          </div>
-
-          <div class="event__type-item">
-            <input id="event-type-train-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="train">
-            <label class="event__type-label  event__type-label--train" for="event-type-train-1">Train</label>
-          </div>
-
-          <div class="event__type-item">
-            <input id="event-type-ship-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="ship">
-            <label class="event__type-label  event__type-label--ship" for="event-type-ship-1">Ship</label>
-          </div>
-
-          <div class="event__type-item">
-            <input id="event-type-drive-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="drive">
-            <label class="event__type-label  event__type-label--drive" for="event-type-drive-1">Drive</label>
-          </div>
-
-          <div class="event__type-item">
-            <input id="event-type-flight-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="flight" checked>
-            <label class="event__type-label  event__type-label--flight" for="event-type-flight-1">Flight</label>
-          </div>
-
-          <div class="event__type-item">
-            <input id="event-type-check-in-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="check-in">
-            <label class="event__type-label  event__type-label--check-in" for="event-type-check-in-1">Check-in</label>
-          </div>
-
-          <div class="event__type-item">
-            <input id="event-type-sightseeing-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="sightseeing">
-            <label class="event__type-label  event__type-label--sightseeing" for="event-type-sightseeing-1">Sightseeing</label>
-          </div>
-
-          <div class="event__type-item">
-            <input id="event-type-restaurant-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="restaurant">
-            <label class="event__type-label  event__type-label--restaurant" for="event-type-restaurant-1">Restaurant</label>
-          </div>
+          ${createPointsTypeTemplate(POINT_TYPES)}
         </fieldset>
       </div>
     </div>
@@ -181,7 +110,9 @@ function createEditPointTemplate({state}) {
   <section class="event__details">
     <section class="event__section  event__section--offers">
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-      ${createOffersTemplate()}
+      <div class="event__available-offers">
+      ${createOffersTemplate(offers.offers)}
+      </div>
     </section>
 
     <section class="event__section  event__section--destination">
@@ -194,7 +125,8 @@ function createEditPointTemplate({state}) {
       </div>
     </section>
   </section>
-</form></li>`);
+</form>
+</li>`);
 }
 
 export default class PointEditView extends AbstractStatefulView {
@@ -218,6 +150,8 @@ export default class PointEditView extends AbstractStatefulView {
   get template() {
     return createEditPointTemplate({
       state: this._state,
+      //pointDestinations: this.#pointDestinations,
+      //pointOffers: this.#pointOffers
     });
   }
 
@@ -264,6 +198,7 @@ export default class PointEditView extends AbstractStatefulView {
 
   };
 
+  // свойство checked нет, дата-атрибутов нет
   #offerClickHandler = (evt) => {
     evt.preventDefault();
 
@@ -302,8 +237,10 @@ export default class PointEditView extends AbstractStatefulView {
 
   #destinationInputChange = (evt) => {
     evt.preventDefault();
+
     const selectedDestination = this.pointDestinations
       .find((pointDestination) => pointDestination.name === evt.target.value); //???
+    //const selectedDestination = this.#pointDestinations.name === evt.target.value;
 
     const selectedDestinationId = (selectedDestination)
       ? selectedDestination.id

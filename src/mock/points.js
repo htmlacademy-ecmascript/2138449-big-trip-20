@@ -65,7 +65,7 @@ const offersMock = [
         price: 160
       },
       {
-        id: '123',
+        id: '1238',
         title: 'Choose class',
         price: 90
       }
@@ -95,7 +95,7 @@ const offersMock = [
         price: 139
       },
       {
-        id: '333',
+        id: '3330',
         title: 'Upgrade to bussines',
         price: 92
       },
@@ -231,4 +231,4 @@ function getRandomPoint() {
   return getRandomArrayElement(baseMockPoints);
 }
 
-export {getRandomPoint};
+export {getRandomPoint, destinationsMock};
