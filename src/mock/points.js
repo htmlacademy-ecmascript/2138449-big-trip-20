@@ -30,7 +30,7 @@ const offersMock = [
         price: 30
       },
       {
-        id: '1111',
+        id: '11112',
         title: 'Upgrade to VIP',
         price: 200
       }
