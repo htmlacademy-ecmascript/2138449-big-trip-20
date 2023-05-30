@@ -20,7 +20,7 @@ const DEFAULT_POINT = {
 
 function createEditPointTemplate({state}) {
   const {point} = state;
-
+console.log('createEditPointTemplate', point);
   const {dateFrom, dateTo, destination, offers, type, basePrice} = point;
   //const wayOffers = offers.offers;
   const dateStart = humanizePointDueDate(dateFrom, DATE_FORMAT);
@@ -150,8 +150,6 @@ export default class PointEditView extends AbstractStatefulView {
   get template() {
     return createEditPointTemplate({
       state: this._state,
-      //pointDestinations: this.#pointDestinations,
-      //pointOffers: this.#pointOffers
     });
   }
 
@@ -226,11 +224,27 @@ export default class PointEditView extends AbstractStatefulView {
   #typeInputClick = (evt) => {
     evt.preventDefault();
 
+    // Тут выбрать офферы относящиеся к новому типу
+    const selectedType = evt.target.value;
+
+
+    function getOffersByType(type) {
+
+      const allOffers = offers.offers; // Получите все офферы
+      const offersForSelectedType = allOffers.filter((offer) => offer.type === type);
+      return offersForSelectedType;
+    }
+
+    const offersForType = getOffersByType(selectedType);
+
     this.updateElement({
       point: {
         ...this._state.point,
-        type: evt.target.value,
-        offers: []
+        type: selectedType,
+        offers: {
+          offers: [ offersForType /** тут все офферы по новому типу */],
+          type: selectedType,
+        }
       }
     });
   };
