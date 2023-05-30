@@ -15,10 +15,15 @@ const SortType = {
 };
 
 const CITIES = [
-  'Amsterdam',
   'Geneva',
   'Chamonix',
+  'Amsterdam',
   'Tbilisi',
+  'Batumi',
+  'Kutaisi',
+  'Barcelona',
+  'London',
+  'Buenos-Aires',
 ];
 
 const POINT_TYPES = [
