@@ -3,7 +3,6 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import flatpickr from 'flatpickr';
 import { CITIES, POINT_TYPES } from '../const.js';
 import 'flatpickr/dist/flatpickr.min.css';
-//import { destinationsMock } from '../mock/points.js';
 
 const DATE_FORMAT = 'DD/MM/YY HH:mm';
 const DEFAULT_TYPE = 'flight';
@@ -137,7 +136,6 @@ export default class PointEditView extends AbstractStatefulView {
   #handleFormCancel = null;
 
   #destinationsModel = null;
-  //#point = null;
   #offersModel = null;
 
   #datepickerFrom = null;
@@ -157,7 +155,6 @@ export default class PointEditView extends AbstractStatefulView {
   }
 
   get template() {
-    //return createEditPointTemplate(this._state, this._state.pointDestination, this._state.pointOffers);
     return createEditPointTemplate(this.#destinationsModel.getById(this._state.point.destination), this._state, this.#offersModel.getByType(this._state.point.type));
   }
 
@@ -193,11 +190,15 @@ export default class PointEditView extends AbstractStatefulView {
     this.element.querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationInputChange);
 
-    const offerBlock = this.element.querySelector('.event__available-offers');
+    //const offerBlock = this.element.querySelector('.event__available-offers');
 
-    if (offerBlock) {
-      offerBlock.addEventListener('change', this.#offerClickHandler);
-    }
+    //if (offerBlock) {
+    //  offerBlock.addEventListener('change', this.#offerClickHandler);
+    //}
+
+    this.element.querySelector('.event__available-offers')
+      .addEventListener('change', this.#offerSelectHandler);
+
 
     this.element.querySelector('.event__input--price')
       .addEventListener('change', this.#priceInputChange);
@@ -218,6 +219,21 @@ export default class PointEditView extends AbstractStatefulView {
     });
   };
 
+  #offerSelectHandler = (evt) => {
+    //evt.preventDefault();
+
+    const selectedOffer = evt.target.value;
+    if (evt.target.checked) {
+      this.updateElement({
+        offers: [...this._state.offers, selectedOffer],
+      });
+    } else {
+      this.updateElement({
+        offers: [...this._state.offers.filter((offer) => offer !== selectedOffer)],
+      });
+    }
+  };
+
   #priceInputChange = (evt) => {
     evt.preventDefault();
 
@@ -232,7 +248,6 @@ export default class PointEditView extends AbstractStatefulView {
   #typeInputClick = (evt) => {
     evt.preventDefault();
 
-    // Тут выбрать офферы относящиеся к новому типу
     const selectedType = evt.target.value;
     const allOffers = this.#offersModel.pointOffers;
     function getOffersByType(type) {
@@ -257,8 +272,7 @@ export default class PointEditView extends AbstractStatefulView {
     const pointDestinations = this.#destinationsModel.pointDestinations;
 
     const selectedDestination = pointDestinations
-      .find((pointDestination) => pointDestination.name === evt.target.value); //???
-    //const selectedDestination = this.#pointDestinations.name === evt.target.value;
+      .find((pointDestination) => pointDestination.name === evt.target.value);
 
     const selectedDestinationId = (selectedDestination)
       ? selectedDestination.id
@@ -272,10 +286,6 @@ export default class PointEditView extends AbstractStatefulView {
     });
   };
 
-  /*#dateFromChangeHandler = () => {
-
-  };*/
-
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormSubmit(PointEditView.parseStateToPoint(this._state));
@@ -285,6 +295,10 @@ export default class PointEditView extends AbstractStatefulView {
     evt.preventDefault();
     this.#handleFormCancel();
   };
+
+  /*#dateFromChangeHandler = () => {
+
+  };*/
 
   /*#setDatepickers = () => {
     this.#datepickerFrom = flatpickr(
