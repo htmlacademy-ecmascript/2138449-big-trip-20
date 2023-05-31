@@ -19,8 +19,6 @@ export default class PointPresenter {
   #pointEditComponent = null;
 
   #point = null;
-  #destinations = null;
-  #offers = null;
   #mode = Mode.DEFAULT;
 
   constructor ({pointListContainer, destinationsModel, pointsModel, offersModel, onDataChange, onModeChange}) {
@@ -53,11 +51,11 @@ export default class PointPresenter {
       onFavoriteClick: this.#handleFavoriteClick,
     });
     this.#pointEditComponent = new PointEditView({
-      point: this.#point,
-      destinationsModel: this.#destinations,
-      offers: this.#offers,
       onFormSubmit: this.#formSubmitHandler,
       onFormCancel: this.#cancelButtonClickHandler,
+      destinationsModel: this.#destinationsModel,
+      point: this.#point,
+      offersModel: this.#offersModel,
     });
 
     if (prevPointComponent === null || prevPointEditComponent === null) {

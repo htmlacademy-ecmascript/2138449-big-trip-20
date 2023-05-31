@@ -18,13 +18,13 @@ const DEFAULT_POINT = {
   type: DEFAULT_TYPE
 };
 
-function createEditPointTemplate(state, pointDestination, pointOffers) {
+function createEditPointTemplate(pointDestination, state, pointOffers) {
   const {point} = state;
-  //const {pointDestination} = destination;
-  //const {pointOffers} = offers;
+  const destination = pointDestination;
+  const offers = pointOffers;
 
   //console.log('createEditPointTemplate', point);
-  const {dateFrom, dateTo, destination, offers, type, basePrice} = point;
+  const {dateFrom, dateTo, type, basePrice} = point;
 
   const dateStart = humanizePointDueDate(dateFrom, DATE_FORMAT);
   const dateEnd = humanizePointDueDate(dateTo, DATE_FORMAT);
@@ -114,7 +114,7 @@ function createEditPointTemplate(state, pointDestination, pointOffers) {
     <section class="event__section  event__section--offers">
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
       <div class="event__available-offers">
-      ${createOffersTemplate(offers.offers)}
+      ${createOffersTemplate(offers)}
       </div>
     </section>
 
@@ -137,28 +137,30 @@ export default class PointEditView extends AbstractStatefulView {
   #handleFormSubmit = null;
   #handleFormCancel = null;
 
-  #destinationModel = null;
+  #destinationsModel = null;
   #point = null;
   #offersModel = null;
 
   #datepickerFrom = null;
   #datepickerTo = null;
 
-  constructor ({point = DEFAULT_POINT, destinationModel, offersModel, onFormSubmit, onFormCancel}) {
+  constructor ({ onFormSubmit, onFormCancel, destinationsModel, point = DEFAULT_POINT, offersModel }) {
     super();
 
     this.#handleFormSubmit = onFormSubmit;
     this.#handleFormCancel = onFormCancel;
 
+    this.#destinationsModel = destinationsModel;
     this._setState(PointEditView.parsePointToState({point}));
-    this.#destinationModel = destinationModel;
-    this.offersModel = offersModel;
+    this.#offersModel = offersModel;
 
     this._restoreHandlers();
   }
 
   get template() {
-    return createEditPointTemplate(this._state, this.#destinationModel, this.offersModel);
+    //return createEditPointTemplate(this._state, this._state.pointDestination, this._state.pointOffers);
+    return createEditPointTemplate(this.#destinationsModel.getById(this._state.point.destination), this._state, this.#offersModel.getByType(this._state.point.type));
+    //return createEditPointTemplate(this._state, this.#destinationModel.getById(this.#point.destination), this.#offersModel.getByType(this.#point.type));
   }
 
   reset = (point) => this.updateElement({point});
@@ -238,7 +240,7 @@ export default class PointEditView extends AbstractStatefulView {
 
     function getOffersByType(type) {
 
-      const allOffers = offers.offers; // Получите все офферы
+      const allOffers = this.#offersModel; // Получаю все офферы ???
       const offersForSelectedType = allOffers.filter((offer) => offer.type === type);
       return offersForSelectedType;
     }
@@ -249,7 +251,7 @@ export default class PointEditView extends AbstractStatefulView {
       point: {
         ...this._state.point,
         type: selectedType,
-        offers: {
+        offers: { // Структура уже другая
           offers: [ offersForType /** тут все офферы по новому типу */],
           type: selectedType,
         }
