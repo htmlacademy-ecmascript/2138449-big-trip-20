@@ -23,7 +23,6 @@ function createEditPointTemplate(pointDestination, state, pointOffers) {
   const destination = pointDestination;
   const offers = pointOffers;
 
-  //console.log('createEditPointTemplate', point);
   const {dateFrom, dateTo, type, basePrice} = point;
 
   const dateStart = humanizePointDueDate(dateFrom, DATE_FORMAT);
@@ -138,7 +137,7 @@ export default class PointEditView extends AbstractStatefulView {
   #handleFormCancel = null;
 
   #destinationsModel = null;
-  #point = null;
+  //#point = null;
   #offersModel = null;
 
   #datepickerFrom = null;
@@ -160,7 +159,6 @@ export default class PointEditView extends AbstractStatefulView {
   get template() {
     //return createEditPointTemplate(this._state, this._state.pointDestination, this._state.pointOffers);
     return createEditPointTemplate(this.#destinationsModel.getById(this._state.point.destination), this._state, this.#offersModel.getByType(this._state.point.type));
-    //return createEditPointTemplate(this._state, this.#destinationModel.getById(this.#point.destination), this.#offersModel.getByType(this.#point.type));
   }
 
   reset = (point) => this.updateElement({point});
@@ -236,11 +234,9 @@ export default class PointEditView extends AbstractStatefulView {
 
     // Тут выбрать офферы относящиеся к новому типу
     const selectedType = evt.target.value;
-
-
+    const allOffers = this.#offersModel.pointOffers;
     function getOffersByType(type) {
 
-      const allOffers = this.#offersModel; // Получаю все офферы ???
       const offersForSelectedType = allOffers.filter((offer) => offer.type === type);
       return offersForSelectedType;
     }
@@ -251,18 +247,16 @@ export default class PointEditView extends AbstractStatefulView {
       point: {
         ...this._state.point,
         type: selectedType,
-        offers: { // Структура уже другая
-          offers: [ offersForType /** тут все офферы по новому типу */],
-          type: selectedType,
-        }
+        offers: [ offersForType ],
       }
     });
   };
 
   #destinationInputChange = (evt) => {
     evt.preventDefault();
+    const pointDestinations = this.#destinationsModel.pointDestinations;
 
-    const selectedDestination = this.pointDestinations
+    const selectedDestination = pointDestinations
       .find((pointDestination) => pointDestination.name === evt.target.value); //???
     //const selectedDestination = this.#pointDestinations.name === evt.target.value;
 
