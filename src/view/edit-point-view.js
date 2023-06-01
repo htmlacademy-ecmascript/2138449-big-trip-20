@@ -30,8 +30,8 @@ function createEditPointTemplate(pointDestination, state, pointOffers) {
   function createOffersTemplate(offersList) {
     return offersList.map((offer) => `
       <div class="event__offer-selector">
-        <input class="event__offer-checkbox visually-hidden" id="event-offer-${offer.id}" type="checkbox" name="event-offer-${offer.id}" ${offer.isChecked ? 'checked' : ''}>
-        <label class="event__offer-label" for="event-offer-${offer.id}">
+        <input class="event__offer-checkbox visually-hidden" id="event-offer-${type}-${offer.id}" value="${offer.id}" type="checkbox" name="event-offer-${type}" ${point.offers.includes(offer.id) ? 'checked' : ''}>
+        <label class="event__offer-label" for="event-offer-${type}-${offer.id}">
           <span class="event__offer-title">${offer.title}</span>
           &plus;&euro;&nbsp;
           <span class="event__offer-price">${offer.price}</span>
@@ -137,7 +137,7 @@ export default class PointEditView extends AbstractStatefulView {
 
   #destinationsModel = null;
   #offersModel = null;
-
+  //#point = null;
   #datepickerFrom = null;
   #datepickerTo = null;
 
@@ -198,7 +198,6 @@ export default class PointEditView extends AbstractStatefulView {
 
     this.element.querySelector('.event__available-offers')
       .addEventListener('change', this.#offerSelectHandler);
-
 
     this.element.querySelector('.event__input--price')
       .addEventListener('change', this.#priceInputChange);
