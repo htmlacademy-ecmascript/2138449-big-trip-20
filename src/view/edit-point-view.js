@@ -190,21 +190,21 @@ export default class PointEditView extends AbstractStatefulView {
     this.element.querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationInputChange);
 
-    //const offerBlock = this.element.querySelector('.event__available-offers');
+    const offerBlock = this.element.querySelector('.event__available-offers');
 
-    //if (offerBlock) {
-    //  offerBlock.addEventListener('change', this.#offerClickHandler);
-    //}
+    if (offerBlock) {
+      offerBlock.addEventListener('change', this.#offerClickHandler);
+    }
 
-    this.element.querySelector('.event__available-offers')
-      .addEventListener('change', this.#offerSelectHandler);
+    //this.element.querySelector('.event__available-offers')
+    //  .addEventListener('change', this.#offerSelectHandler);
 
     this.element.querySelector('.event__input--price')
       .addEventListener('change', this.#priceInputChange);
 
   };
 
-  // свойство checked нет, дата-атрибутов нет
+  // свойство checked, дата-атрибуты
   #offerClickHandler = (evt) => {
     evt.preventDefault();
 
