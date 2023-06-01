@@ -54,7 +54,7 @@ function createNewPointTemplate(point, destination, offers) {
 </li>`);
 }
 
-export default class NewPointView extends AbstractView {
+export default class PointView extends AbstractView {
   #point = null;
   #destination = null;
   #offers = null;
