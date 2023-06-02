@@ -1,7 +1,7 @@
 import { humanizePointDueDate } from '../utils/point.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-import flatpickr from 'flatpickr';
 import { CITIES, POINT_TYPES } from '../const.js';
+import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
 const DATE_FORMAT = 'DD/MM/YY HH:mm';
@@ -138,8 +138,7 @@ export default class PointEditView extends AbstractStatefulView {
   #destinationsModel = null;
   #offersModel = null;
   //#point = null;
-  #datepickerFrom = null;
-  #datepickerTo = null;
+  #datepicker = null;
 
   constructor ({ onFormSubmit, onFormCancel, destinationsModel, point = DEFAULT_POINT, offersModel }) {
     super();
@@ -160,17 +159,18 @@ export default class PointEditView extends AbstractStatefulView {
 
   reset = (point) => this.updateElement({point});
 
+  // reset(point) {
+  //   this.updateElement(
+  //     PointEditView.parsePointToState(point),
+  //   );
+  // }
+
   removeElement() {
     super.removeElement();
 
-    if (this.#datepickerFrom) {
-      this.#datepickerFrom.destroy();
-      this.#datepickerFrom = null;
-    }
-
-    if (this.#datepickerTo) {
-      this.#datepickerTo.destroy();
-      this.#datepickerTo = null;
+    if (this.#datepicker) {
+      this.#datepicker.destroy();
+      this.#datepicker = null;
     }
   }
 
@@ -202,9 +202,11 @@ export default class PointEditView extends AbstractStatefulView {
     this.element.querySelector('.event__input--price')
       .addEventListener('change', this.#priceInputChange);
 
+    this.#setDatepickerFrom();
+    this.#setDatepickerTo();
   };
 
-  // свойство checked, дата-атрибуты
+  // дата-атрибуты
   #offerClickHandler = (evt) => {
     evt.preventDefault();
 
@@ -295,28 +297,47 @@ export default class PointEditView extends AbstractStatefulView {
     this.#handleFormCancel();
   };
 
-  /*#dateFromChangeHandler = () => {
+  #dateFromChangeHandler = ([userDate]) => {
+    this.updateElement({
+      dateFrom: userDate,
+    });
+  };
 
-  };*/
+  #dateToChangeHandler = ([userDate]) => {
+    this.updateElement({
+      dateTo: userDate,
+    });
+  };
 
-  /*#setDatepickers = () => {
-    this.#datepickerFrom = flatpickr(
+  #setDatepickerFrom() {
+    this.#datepicker = flatpickr(
       this.element.querySelector('#event-start-time-1'),
       {
-        dateFormat: 'd/m/y H:i',
-        defaultDate: this._state.point.dateFrom,
-        onClose: this.#dateFromChangeHandler,
         enableTime: true,
-        maxDate: this._state.point.dateTo,
-        locale: {
-          firstDayOfWeek: 1,
-        },
-        'time_24hr': true
+        dateFormat: 'd/m/y H:i',
+        minDate: 'today',
+        maxDate: this._state.dateTo,
+        defaultDate: this._state.dateFrom,
+        onChange: this.#dateFromChangeHandler,
+        'time_24hr': true,
       },
     );
+  }
 
-    //this.#datepickerTo = flatpickr();
-  };*/
+  #setDatepickerTo() {
+    this.#datepicker = flatpickr(
+      this.element.querySelector('#event-end-time-1'),
+      {
+        enableTime: true,
+        dateFormat: 'd/m/y H:i',
+        minDate: this._state.dateFrom,
+        defaultDate: this._state.dateTo,
+        onChange: this.#dateToChangeHandler,
+        'time_24hr': true,
+      },
+    );
+  }
+
 
   static parsePointToState = ({point}) => ({point});
 
