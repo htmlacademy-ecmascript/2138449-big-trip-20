@@ -403,11 +403,4 @@ function getRandomPoint() {
   return getRandomArrayElement(baseMockPoints);
 }
 
-//function getRandomPoint() {
- // return {
-//    id: nanoid(),
- //   ...getRandomArrayElement(baseMockPoints),
- // };
-//}
-
 export {getRandomPoint, destinationsMock, offersMock};
