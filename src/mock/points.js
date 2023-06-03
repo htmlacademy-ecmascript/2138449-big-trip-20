@@ -1,5 +1,4 @@
 import { getRandomArrayElement } from '../utils/common.js';
-//import {nanoid} from 'nanoid';
 
 const offersMock = [
   {

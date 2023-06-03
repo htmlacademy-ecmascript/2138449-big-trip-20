@@ -160,12 +160,6 @@ export default class PointEditView extends AbstractStatefulView {
 
   reset = (point) => this.updateElement({point});
 
-  // reset(point) {
-  //   this.updateElement(
-  //     PointEditView.parsePointToState(point),
-  //   );
-  // }
-
   removeElement() {
     super.removeElement();
 
@@ -197,9 +191,6 @@ export default class PointEditView extends AbstractStatefulView {
       offerBlock.addEventListener('change', this.#offerClickHandler);
     }
 
-    //this.element.querySelector('.event__available-offers')
-    //  .addEventListener('change', this.#offerSelectHandler);
-
     this.element.querySelector('.event__input--price')
       .addEventListener('change', this.#priceInputChange);
 
@@ -207,7 +198,6 @@ export default class PointEditView extends AbstractStatefulView {
     this.#setDatepickerTo();
   };
 
-  // дата-атрибуты
   #offerClickHandler = (evt) => {
     evt.preventDefault();
 
@@ -219,21 +209,6 @@ export default class PointEditView extends AbstractStatefulView {
         offers: checkedBoxes.map((element) => element.dataset.offerId)
       }
     });
-  };
-
-  #offerSelectHandler = (evt) => {
-    //evt.preventDefault();
-
-    const selectedOffer = evt.target.value;
-    if (evt.target.checked) {
-      this.updateElement({
-        offers: [...this._state.offers, selectedOffer],
-      });
-    } else {
-      this.updateElement({
-        offers: [...this._state.offers.filter((offer) => offer !== selectedOffer)],
-      });
-    }
   };
 
   #priceInputChange = (evt) => {
@@ -296,7 +271,6 @@ export default class PointEditView extends AbstractStatefulView {
   #formCancelHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormCancel();
-    //this.reset(this._state.point);
   };
 
   #dateFromChangeHandler = ([userDate]) => {
