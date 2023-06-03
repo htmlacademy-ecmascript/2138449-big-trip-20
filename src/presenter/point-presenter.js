@@ -120,6 +120,7 @@ export default class PointPresenter {
   #cancelButtonClickHandler = () => {
     this.#pointEditComponent.reset(this.#point);
     this.#replaceFormToPoint();
+    //this.resetView();
   };
 
   #editClickHandler = () => {

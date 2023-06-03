@@ -314,7 +314,7 @@ const baseMockPoints = [
     dateTo: '2024-09-13T14:23:08.155Z',
     destination: '1',
     isFavorite: false,
-    offers: ['1', '11', '111', '1111', '11111', '111111'],
+    offers: ['11', '1111'],
     type: 'train',
   },
   {
@@ -324,7 +324,7 @@ const baseMockPoints = [
     dateTo: '2023-05-15T14:40:10.235Z',
     destination: '2',
     isFavorite: true,
-    offers: ['3', '33', '333', '3333'],
+    offers: ['333', '3333'],
     type: 'bus',
   },
   {
@@ -334,7 +334,7 @@ const baseMockPoints = [
     dateTo: '2020-12-02T11:10:20.080Z',
     destination: '3',
     isFavorite: false,
-    offers: ['4', '44', '444'],
+    offers: ['444'],
     type: 'flight',
   },
   {
@@ -344,7 +344,7 @@ const baseMockPoints = [
     dateTo: '2022-10-13T14:23:08.155Z',
     destination: '4',
     isFavorite: false,
-    offers: ['5', '55', '555', '5555', '55555'],
+    offers: ['5', '5555', '55555'],
     type: 'drive',
   },
   {
@@ -354,7 +354,7 @@ const baseMockPoints = [
     dateTo: '2022-09-13T14:23:08.155Z',
     destination: '5',
     isFavorite: false,
-    offers: ['6', '66'],
+    offers: ['66'],
     type: 'sightseeing',
   },
   {
@@ -364,7 +364,7 @@ const baseMockPoints = [
     dateTo: '2022-07-13T14:23:08.155Z',
     destination: '6',
     isFavorite: true,
-    offers: ['09', '099'],
+    offers: [],
     type: 'restaurant',
   },
   {
@@ -374,7 +374,7 @@ const baseMockPoints = [
     dateTo: '2022-02-13T14:23:08.155Z',
     destination: '7',
     isFavorite: false,
-    offers: ['100', '200'],
+    offers: ['200'],
     type: 'check-in',
   },
   {
@@ -384,7 +384,7 @@ const baseMockPoints = [
     dateTo: '2021-02-13T14:23:08.155Z',
     destination: '8',
     isFavorite: true,
-    offers: ['400', '500'],
+    offers: ['500'],
     type: 'taxi',
   },
   {

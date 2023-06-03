@@ -17,11 +17,7 @@ const DEFAULT_POINT = {
   type: DEFAULT_TYPE
 };
 
-function createEditPointTemplate(pointDestination, state, pointOffers) {
-  const {point} = state;
-  const destination = pointDestination;
-  const offers = pointOffers;
-
+function createEditPointTemplate(destination, point, offers) {
   const {dateFrom, dateTo, type, basePrice} = point;
 
   const dateStart = humanizePointDueDate(dateFrom, DATE_FORMAT);
@@ -137,7 +133,7 @@ export default class PointEditView extends AbstractStatefulView {
 
   #destinationsModel = null;
   #offersModel = null;
-  //#point = null;
+  #point = null;
   #datepicker = null;
 
   constructor ({ onFormSubmit, onFormCancel, destinationsModel, point = DEFAULT_POINT, offersModel }) {
@@ -154,7 +150,12 @@ export default class PointEditView extends AbstractStatefulView {
   }
 
   get template() {
-    return createEditPointTemplate(this.#destinationsModel.getById(this._state.point.destination), this._state, this.#offersModel.getByType(this._state.point.type));
+    const destinations = this.#destinationsModel.getById(this._state.point.destination);
+    return createEditPointTemplate(
+      destinations,
+      this._state.point,
+      this.#offersModel.getByType(this._state.point.type)
+    );
   }
 
   reset = (point) => this.updateElement({point});
@@ -295,6 +296,7 @@ export default class PointEditView extends AbstractStatefulView {
   #formCancelHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormCancel();
+    //this.reset(this._state.point);
   };
 
   #dateFromChangeHandler = ([userDate]) => {
