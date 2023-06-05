@@ -7,7 +7,7 @@ import PointPresenter from './point-presenter.js';
 import { sortByTime, sortByPrice } from '../utils/point.js';
 import { SortType } from '../const.js';
 
-export default class ListPresenter {
+export default class BoardPresenter {
   #boardContainer = null;
   #pointsModel = null;
   #destinationsModel = null;
@@ -26,10 +26,14 @@ export default class ListPresenter {
     this.#pointsModel = pointsModel;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
+
+    this.#pointsModel.addObserver(this.#handleModelEvent);
   }
 
   get points() {
     switch (this.#currentSortType) {
+      //case SortType.DAY // только надо это sortByDate проописать
+      // return [...this.#pointsModel.points].sort(sortByDate);
       case SortType.TIME:
         return [...this.#pointsModel.points].sort(sortByTime);
       case SortType.PRICE:
@@ -50,9 +54,15 @@ export default class ListPresenter {
     this.#pointPresenters.forEach((presenter) => presenter.resetView());
   };
 
-  #handlePointChange = (updatedPoint) => {
-  // Здесь будем вызывать обновление модели
-    this.#pointPresenters.get(updatedPoint.id).init(updatedPoint);
+  #handleViewAction = (actionType, updateType, update) => {
+    // Здесь будем вызывать обновление модели.
+    // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
+    // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
+    // update - обновленные данные
+  };
+
+  #handleModelEvent = (updateType, data) => {
+
   };
 
   #renderPoint(point) {
@@ -61,7 +71,7 @@ export default class ListPresenter {
       destinationsModel: this.#destinationsModel,
       pointsModel: this.#pointsModel,
       offersModel: this.#offersModel,
-      onDataChange: this.#handlePointChange,
+      onDataChange: this.#handleViewAction,
       onModeChange: this.#handleModeChange
     });
     pointPresenter.init(point);

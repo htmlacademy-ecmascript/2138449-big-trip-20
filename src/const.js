@@ -11,7 +11,7 @@ const SortType = {
   EVENT: 'event',
   TIME: 'time',
   PRICE: 'price',
-  OFFERS: 'offers',
+  OFFERS: 'offers'
 };
 
 const CITIES = [
@@ -38,4 +38,21 @@ const POINT_TYPES = [
   'Restaurant',
 ];
 
-export {FilterType, SortType, CITIES, POINT_TYPES};
+/*const EditType = {
+  EDITING: 'EDITING',
+  CREATING: 'CREATING'
+};*/
+
+const UserAction = {
+  UPDATE_POINT: 'UPDATE_POINT',
+  ADD_POINT: 'ADD_POINT',
+  DELETE_POINT: 'DELETE_POINT',
+};
+
+const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR'
+};
+
+export {FilterType, SortType, CITIES, POINT_TYPES, UpdateType, UserAction, /*EditType*/};

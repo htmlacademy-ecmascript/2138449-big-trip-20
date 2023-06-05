@@ -1,4 +1,4 @@
-import ListPresenter from './presenter/trip-list-presenter.js';
+import BoardPresenter from './presenter/board-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 import TripInfoView from './view/trip-info-view.js';
 import PointsModel from './model/point-model.js';
@@ -17,7 +17,7 @@ const pointsModel = new PointsModel();
 const destinationsModel = new DestinationsModel();
 const offersModel = new OffersModel();
 
-const listPresenter = new ListPresenter({
+const boardPresenter = new BoardPresenter({
   boardContainer: eventListElement,
   pointsModel,
   destinationsModel,
@@ -31,5 +31,5 @@ const filterPresenter = new FilterPresenter({
 
 render(new TripInfoView(), tripInfoElement, RenderPosition.AFTERBEGIN);
 
-listPresenter.init();
+boardPresenter.init();
 filterPresenter.init();
