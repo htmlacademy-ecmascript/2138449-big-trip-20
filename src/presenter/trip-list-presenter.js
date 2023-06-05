@@ -11,6 +11,8 @@ import { SortType } from '../const.js';
 export default class ListPresenter {
   #boardContainer = null;
   #pointsModel = null;
+  #destinationsModel = null;
+  #offersModel = null;
 
   #boardComponent = new ListView();
   #pointListComponent = new PointListView();
@@ -22,9 +24,11 @@ export default class ListPresenter {
   #currentSortType = SortType.DAY;
   #sourcedBoardPoints = [];
 
-  constructor({boardContainer, pointsModel}) {
+  constructor({boardContainer, pointsModel, destinationsModel, offersModel}) {
     this.#boardContainer = boardContainer;
     this.#pointsModel = pointsModel;
+    this.#destinationsModel = destinationsModel;
+    this.#offersModel = offersModel;
   }
 
   init() {
@@ -46,6 +50,9 @@ export default class ListPresenter {
   #renderPoint(point) {
     const pointPresenter = new PointPresenter({
       pointListContainer: this.#pointListComponent.element,
+      destinationsModel: this.#destinationsModel,
+      pointsModel: this.#pointsModel,
+      offersModel: this.#offersModel,
       onDataChange: this.#handlePointChange,
       onModeChange: this.#handleModeChange
     });

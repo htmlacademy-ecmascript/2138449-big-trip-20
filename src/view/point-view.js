@@ -4,18 +4,19 @@ import AbstractView from '../framework/view/abstract-view.js';
 const MOUNTH_DAY = 'MMM DD';
 const HOUR_MIN = 'HH:mm';
 
-function createNewPointTemplate(data) {
+function createNewPointTemplate(point, destination, offers) {
 
-  const { basePrice, dateFrom, dateTo, destination, offers, type, isFavorite } = data;
+  const { basePrice, dateFrom, dateTo, type, isFavorite } = point;
 
   const favoriteClassName = isFavorite ? 'event__favorite-btn--active' : '';
 
-  function createOfferTemplate(wayoffers) {
-    return `<li class="event__offer">
-    <span class="event__offer-title">${wayoffers.offers[1].title}</span>
-    &plus;&euro;&nbsp;
-    <span class="event__offer-price">${wayoffers.offers[1].price}</span>
-  </li>`;
+  function createOfferTemplate(wayOffers) {
+    return wayOffers.map((offer) =>
+      `<li class="event__offer">
+         <span class="event__offer-title">${offer.title}</span>
+         &plus;&euro;&nbsp;
+         <span class="event__offer-price">${offer.price}</span>
+       </li>`).join('');
   }
 
   return (/*html*/`<li class="trip-events__item">
@@ -53,14 +54,19 @@ function createNewPointTemplate(data) {
 </li>`);
 }
 
-export default class NewPointView extends AbstractView {
+export default class PointView extends AbstractView {
   #point = null;
+  #destination = null;
+  #offers = null;
+
   #onEditClick = null;
   #handleFavoriteClick = null;
 
-  constructor ({point, onEditClick, onFavoriteClick}) {
+  constructor ({point, destinations, offers, onEditClick, onFavoriteClick}) {
     super();
     this.#point = point;
+    this.#destination = destinations;
+    this.#offers = offers;
     this.#onEditClick = onEditClick;
     this.#handleFavoriteClick = onFavoriteClick;
 
@@ -71,7 +77,7 @@ export default class NewPointView extends AbstractView {
   }
 
   get template() {
-    return createNewPointTemplate(this.#point);
+    return createNewPointTemplate(this.#point, this.#destination, this.#offers);
   }
 
   #editClickHandler = (evt) => {

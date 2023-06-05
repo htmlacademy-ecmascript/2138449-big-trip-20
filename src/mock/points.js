@@ -30,7 +30,7 @@ const offersMock = [
         price: 30
       },
       {
-        id: '1111',
+        id: '111111',
         title: 'Upgrade to VIP',
         price: 200
       }
@@ -39,11 +39,6 @@ const offersMock = [
   {
     type: 'flight',
     offers: [
-      {
-        id: '2',
-        title: 'Add meal',
-        price: 30
-      },
       {
         id: '4',
         title: 'Travel by train',
@@ -55,20 +50,10 @@ const offersMock = [
         price: 80
       },
       {
-        id: '123',
-        title: 'Choose seats',
-        price: 50
-      },
-      {
         id: '444',
         title: 'Switch to VIP',
         price: 160
       },
-      {
-        id: '123',
-        title: 'Choose class',
-        price: 90
-      }
     ]
   },
   {
@@ -93,11 +78,6 @@ const offersMock = [
         id: '3333',
         title: 'Book nearby seats',
         price: 139
-      },
-      {
-        id: '333',
-        title: 'Upgrade to bussines',
-        price: 92
       },
     ]
   },
@@ -130,12 +110,82 @@ const offersMock = [
         price: 60,
       },
     ]
-  }
+  },
+  {
+    type: 'sightseeing',
+    offers: [
+      {
+        id: '6',
+        title: 'Reserve museum',
+        price: 100,
+      },
+      {
+        id: '66',
+        title: 'Choose place',
+        price: 1190,
+      },
+    ]
+  },
+  {
+    type: 'restaurant',
+    offers: [
+      {
+        id: '09',
+        title: 'Reserve table',
+        price: 100,
+      },
+      {
+        id: '099',
+        title: 'Choose place',
+        price: 80,
+      },
+    ]
+  },
+  {
+    type: 'check-in',
+    offers: [
+      {
+        id: '100',
+        title: 'Late check',
+        price: 1000,
+      },
+      {
+        id: '200',
+        title: 'Add breakfeast',
+        price: 2000,
+      },
+    ]
+  },
+  {
+    type: 'taxi',
+    offers: [
+      {
+        id: '400',
+        title: 'Up class',
+        price: 700,
+      },
+      {
+        id: '500',
+        title: 'Choose BMW',
+        price: 900,
+      },
+    ]
+  },
+  {
+    type: 'ship',
+    offers: [
+      {
+        id: '007',
+        title: 'Choose not Titanic',
+        price: 100,
+      },
+    ]
+  },
 ];
 
 const destinationsMock = [
   {
-    id: '100',
+    id: '1',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     name: 'Geneva',
     pictures: [
@@ -150,7 +200,7 @@ const destinationsMock = [
     ]
   },
   {
-    id: '200',
+    id: '2',
     description: 'Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.',
     name: 'Chamonix',
     pictures: [
@@ -161,7 +211,7 @@ const destinationsMock = [
     ]
   },
   {
-    id: '300',
+    id: '3',
     description: 'Nunc fermentum tortor ac porta dapibus.',
     name: 'Amsterdam',
     pictures: [
@@ -172,7 +222,7 @@ const destinationsMock = [
     ]
   },
   {
-    id: '400',
+    id: '4',
     description: 'Vake park is great.',
     name: 'Tbilisi',
     pictures: [
@@ -181,49 +231,170 @@ const destinationsMock = [
         description: 'Tbilisi is the capital of Georgia'
       }
     ]
-  }
+  },
+  {
+    id: '5',
+    description: 'Batumi garden.',
+    name: 'Batumi',
+    pictures: [
+      {
+        src: 'https://loremflickr.com/248/152?random=8682222268393',
+        description: 'Tbilisi it is city in Georgia'
+      }
+    ]
+  },
+  {
+    id: '6',
+    description: 'Kutaisi Macdonalds.',
+    name: 'Kutaisi',
+    pictures: [
+      {
+        src: 'https://loremflickr.com/248/152?random=82222268393',
+        description: 'Kutaisi has Macdonalds'
+      },
+      {
+        src: 'https://loremflickr.com/248/152?random=8222393',
+        description: 'Kutaisi old city'
+      }
+    ]
+  },
+  {
+    id: '7',
+    description: 'Aliquam erat volutpat.',
+    name: 'Barcelona',
+    pictures: [
+      {
+        src: 'https://loremflickr.com/248/152?random=822218393',
+        description: 'In rutrum ac purus sit amet tempus.',
+      },
+      {
+        src: 'https://loremflickr.com/248/152?random=822993',
+        description:  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      }
+    ]
+  },
+  {
+    id: '8',
+    description: 'Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.',
+    name: 'London',
+    pictures: [
+      {
+        src: 'https://loremflickr.com/248/152?random=42218393',
+        description: 'In rutrum ac purus sit amet tempus.',
+      },
+      {
+        src: 'https://loremflickr.com/248/152?random=12293',
+        description:  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      }
+    ]
+  },
+  {
+    id: '9',
+    description: 'Condimentum sed nibh vitae, sodales efficitur ipsum.',
+    name: 'Buenos-Aires',
+    pictures: [
+      {
+        src: 'https://loremflickr.com/248/152?random=18393',
+        description: 'Jo rutrum ac purus sit amet tempus.',
+      },
+      {
+        src: 'https://loremflickr.com/248/152?random=93',
+        description:  'Lorem dolor sit amet, consectetur adipiscing elit.',
+      }
+    ]
+  },
 ];
 
 const baseMockPoints = [
   {
-    id: '23',
-    basePrice: 195,
+    id: '1',
+    basePrice: 11,
     dateFrom: '2024-09-08T02:05:16.735Z',
     dateTo: '2024-09-13T14:23:08.155Z',
-    destination: destinationsMock[1], // ?
+    destination: '1',
     isFavorite: false,
-    offers: offersMock[0], // ?
+    offers: ['11', '1111'],
     type: 'train',
   },
   {
-    id: '68',
-    basePrice: 273,
+    id: '2',
+    basePrice: 22,
     dateFrom: '2023-05-14T12:22:10.001Z',
     dateTo: '2023-05-15T14:40:10.235Z',
-    destination: destinationsMock[2], // ?
+    destination: '2',
     isFavorite: true,
-    offers: offersMock[2], // ?
+    offers: ['333', '3333'],
     type: 'bus',
   },
   {
-    id: '17',
-    basePrice: 379,
+    id: '3',
+    basePrice: 33,
     dateFrom: '2020-12-01T01:00:00.000Z',
     dateTo: '2020-12-02T11:10:20.080Z',
-    destination: destinationsMock[0], // ?
+    destination: '3',
     isFavorite: false,
-    offers: offersMock[1], // ?
+    offers: ['444'],
     type: 'flight',
   },
   {
-    id: '2',
-    basePrice: 153,
+    id: '4',
+    basePrice: 44,
     dateFrom: '2022-10-08T02:05:16.735Z',
     dateTo: '2022-10-13T14:23:08.155Z',
-    destination: destinationsMock[3], // ?
+    destination: '4',
     isFavorite: false,
-    offers: offersMock[3], // ?
+    offers: ['5', '5555', '55555'],
     type: 'drive',
+  },
+  {
+    id: '5',
+    basePrice: 55,
+    dateFrom: '2022-09-08T02:05:16.735Z',
+    dateTo: '2022-09-13T14:23:08.155Z',
+    destination: '5',
+    isFavorite: false,
+    offers: ['66'],
+    type: 'sightseeing',
+  },
+  {
+    id: '6',
+    basePrice: 66,
+    dateFrom: '2022-07-08T02:05:16.735Z',
+    dateTo: '2022-07-13T14:23:08.155Z',
+    destination: '6',
+    isFavorite: true,
+    offers: [],
+    type: 'restaurant',
+  },
+  {
+    id: '7',
+    basePrice: 77,
+    dateFrom: '2022-02-08T02:05:16.735Z',
+    dateTo: '2022-02-13T14:23:08.155Z',
+    destination: '7',
+    isFavorite: false,
+    offers: ['200'],
+    type: 'check-in',
+  },
+  {
+    id: '8',
+    basePrice: 88,
+    dateFrom: '2021-02-08T02:05:16.735Z',
+    dateTo: '2021-02-13T14:23:08.155Z',
+    destination: '8',
+    isFavorite: true,
+    offers: ['500'],
+    type: 'taxi',
+  },
+  {
+    id: '9',
+    basePrice: 99,
+    dateFrom: '2023-02-08T02:05:16.735Z',
+    dateTo: '2023-02-13T14:23:08.155Z',
+    destination: '9',
+    isFavorite: false,
+    offers: ['007'],
+    type: 'ship',
   },
 ];
 
@@ -231,4 +402,4 @@ function getRandomPoint() {
   return getRandomArrayElement(baseMockPoints);
 }
 
-export {getRandomPoint};
+export {getRandomPoint, destinationsMock, offersMock};
