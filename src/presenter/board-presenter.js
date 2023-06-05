@@ -5,7 +5,7 @@ import ListView from '../view/list-view.js';
 import NoPointsView from '../view/no-points-view.js';
 import PointPresenter from './point-presenter.js';
 import { sortByTime, sortByPrice } from '../utils/point.js';
-import { SortType } from '../const.js';
+import { SortType, UpdateType, UserAction } from '../const.js';
 
 export default class BoardPresenter {
   #boardContainer = null;
@@ -55,14 +55,29 @@ export default class BoardPresenter {
   };
 
   #handleViewAction = (actionType, updateType, update) => {
-    // Здесь будем вызывать обновление модели.
-    // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
-    // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
-    // update - обновленные данные
+    switch (actionType) {
+      case UserAction.UPDATE_POINT:
+        this.#pointsModel.updateTask(updateType, update);
+        break;
+      case UserAction.ADD_POINT:
+        this.#pointsModel.updateTask(updateType, update);
+        break;
+      case UserAction.DELETE_POINT:
+        this.#pointsModel.updateTask(updateType, update);
+        break;
+    }
   };
 
   #handleModelEvent = (updateType, data) => {
-
+    switch (updateType) {
+      case UpdateType.PATCH:
+        this.#pointPresenters.get(data.id).init(data);
+        break;
+      case UpdateType.MINOR:
+        break;
+      case UpdateType.MAJOR:
+        break;
+    }
   };
 
   #renderPoint(point) {
