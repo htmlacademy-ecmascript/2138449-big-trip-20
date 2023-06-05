@@ -31,6 +31,10 @@ export default class ListPresenter {
     this.#offersModel = offersModel;
   }
 
+  get points() {
+    return this.#pointsModel.point;
+  }
+
   init() {
     this.#boardPoints = [...this.#pointsModel.points];
     this.#sourcedBoardPoints = [...this.#pointsModel.points];
