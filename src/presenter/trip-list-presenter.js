@@ -99,8 +99,9 @@ export default class ListPresenter {
   }
 
   #renderPointList() {
+    const points = this.points;
     render(this.#pointListComponent, this.#boardComponent.element);
-    this.#renderPoints();
+    this.#renderPoints(points);
   }
 
   #renderBoard() {
