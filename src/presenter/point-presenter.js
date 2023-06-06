@@ -2,6 +2,7 @@ import { render, replace, remove } from '../framework/render.js';
 import PointEditView from '../view/edit-point-view.js';
 import PointView from '../view/point-view.js';
 import { UserAction, UpdateType } from '../const.js';
+import { isDatesEqual } from '../utils/point.js';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -54,6 +55,7 @@ export default class PointPresenter {
     this.#pointEditComponent = new PointEditView({
       onFormSubmit: this.#formSubmitHandler,
       onFormCancel: this.#cancelButtonClickHandler,
+      onDeleteClick: this.#deleteClickHandler,
       destinationsModel: this.#destinationsModel,
       point: this.#point,
       offersModel: this.#offersModel,
@@ -111,18 +113,28 @@ export default class PointPresenter {
 
   #favoriteClickHandler = () => {
     this.#handleDataChange(
-      UserAction.UPDATE_TASK, //тут наверное EditType.EDITING,
+      UserAction.UPDATE_POINT, //тут наверное EditType.EDITING,
       UpdateType.MINOR,
       {...this.#point, isFavorite: !this.#point.isFavorite});
   };
 
-  #formSubmitHandler = (point) => {
+  #formSubmitHandler = (update) => {
+    const isMinorUpdate = !isDatesEqual(this.#point.dateFrom, update.dateFrom);
+
     this.#handleDataChange(
-      UserAction.UPDATE_TASK, //тут наверное EditType.EDITING,
+      UserAction.UPDATE_POINT,
+      isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
+      update,
+    );
+    this.#replaceFormToPoint();
+  };
+
+  #deleteClickHandler = (point) => {
+    this.#handleDataChange(
+      UserAction.DELETE_POINT,
       UpdateType.MINOR,
       point,
     );
-    this.#replaceFormToPoint();
   };
 
   #cancelButtonClickHandler = () => {

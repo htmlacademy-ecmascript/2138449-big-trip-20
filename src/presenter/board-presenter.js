@@ -105,11 +105,6 @@ export default class BoardPresenter {
     render(this.#noPointsComponent, this.#pointListComponent.element, RenderPosition.AFTERBEGIN);
   }
 
-  #clearPointList() {
-    this.#pointPresenter.forEach((presenter) => presenter.destroy());
-    this.#pointPresenter.clear();
-  }
-
   #handleSortTypeChange = (sortType) => {
     if (this.#currentSortType === sortType) {
       return;
@@ -126,12 +121,6 @@ export default class BoardPresenter {
       onSortTypeChange: this.#handleSortTypeChange
     });
     render(this.#sortComponent, this.#boardComponent.element, RenderPosition.AFTERBEGIN);
-  }
-
-  #renderPointList() {
-    const points = this.points;
-    render(this.#pointListComponent, this.#boardComponent.element);
-    this.#renderPoints(points);
   }
 
   #clearBoard(resetSortType = false) {

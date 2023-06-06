@@ -130,21 +130,34 @@ export default class PointEditView extends AbstractStatefulView {
 
   #handleFormSubmit = null;
   #handleFormCancel = null;
+  #handleDeleteClick = null;
 
   #destinationsModel = null;
   #offersModel = null;
   #point = null;
   #datepicker = null;
 
-  constructor ({ onFormSubmit, onFormCancel, destinationsModel, point = DEFAULT_POINT, offersModel }) {
+  #isNew = false;
+
+  constructor ({
+    onFormSubmit,
+    onFormCancel,
+    onDeleteClick,
+    destinationsModel,
+    point = DEFAULT_POINT,
+    offersModel,
+    isNew
+  }) {
     super();
 
     this.#handleFormSubmit = onFormSubmit;
     this.#handleFormCancel = onFormCancel;
+    this.#handleDeleteClick = onDeleteClick;
 
     this.#destinationsModel = destinationsModel;
     this._setState(PointEditView.parsePointToState({point}));
     this.#offersModel = offersModel;
+    this.#isNew = isNew;
 
     this._restoreHandlers();
   }
@@ -173,14 +186,17 @@ export default class PointEditView extends AbstractStatefulView {
     this.element.querySelector('.event__rollup-btn')
       .addEventListener('click', this.#formCancelHandler);
 
-    this.element.querySelector('form')
-      .addEventListener('submit', this.#formSubmitHandler);
-
     this.element.querySelector('.event__type-group')
       .addEventListener('change', this.#typeInputClick);
-
-    this.element.querySelector('.event__reset-btn')
-      .addEventListener('click', this.#formCancelHandler);
+    if(this.#isNew) {
+      this.element.querySelector('.event__reset-btn')
+        .addEventListener('click', this.#formCancelHandler);
+    } else {
+      this.element.querySelector('.event__reset-btn')
+        .addEventListener('click', this.#formDeleteClickHandler);
+      this.element.querySelector('form')
+        .addEventListener('submit', this.#formSubmitHandler);
+    }
 
     this.element.querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationInputChange);
@@ -314,6 +330,10 @@ export default class PointEditView extends AbstractStatefulView {
     );
   }
 
+  #formDeleteClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleDeleteClick(PointEditView.parseStateToPoint(this._state));
+  };
 
   static parsePointToState = ({point}) => ({point});
 

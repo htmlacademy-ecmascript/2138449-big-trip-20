@@ -63,6 +63,10 @@ function sortByPrice(points) {
   return points.sort((a, b) => b.basePrice - a.basePrice);
 }
 
+function isDatesEqual(dateA, dateB) {
+  return (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB, 'D');
+}
+
 export {
   humanizePointDueDate,
   getPointDuration,
@@ -70,4 +74,6 @@ export {
   isPointPresent,
   isPointPast,
   sortByTime,
-  sortByPrice};
+  sortByPrice,
+  isDatesEqual,
+};
