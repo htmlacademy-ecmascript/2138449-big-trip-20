@@ -78,7 +78,7 @@ export default class BoardPresenter {
         this.#renderBoard();
         break;
       case UpdateType.MAJOR:
-        this.#clearBoard({resetRenderedPointCount: true, resetSortType: true});
+        this.#clearBoard({resetRenderedPointCount: true, resetSortType: true}); // ??
         this.#renderBoard();
         break;
     }
@@ -116,7 +116,7 @@ export default class BoardPresenter {
     }
 
     this.#currentSortType = sortType;
-    this.#clearBoard({resetRenderedPointCount: true});
+    this.#clearBoard({resetRenderedPointCount: true}); // ?
     this.#renderBoard();
   };
 
@@ -137,10 +137,15 @@ export default class BoardPresenter {
   #clearBoard(resetSortType = false) {
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
+    /*тут надо будет удалить презентер для создания новой точки */
 
     remove(this.#sortComponent);
     remove(this.#noPointsComponent);
-    remove(/*тут будет кнопка больше точек */);
+
+
+    if (this.#noPointsComponent) {
+      remove(this.#noPointsComponent);
+    }
 
     if (resetSortType) {
       this.#currentSortType = SortType.DAY;
@@ -150,12 +155,13 @@ export default class BoardPresenter {
   #renderBoard() {
     render(this.#boardComponent, this.#boardContainer);
 
-    if (!this.points.length) { //Тут хз
+    if (!this.points.length) { //Тут хз, может лучше проверять на ноль точек
       this.#renderNoPoints();
       return;
     }
 
     this.#renderSort();
-    this.#renderPointList(); // и тут непонятно
+    //this.#renderPointList(); // и тут непонятно
+    render(this.#pointListComponent, this.#boardComponent.element);
   }
 }
