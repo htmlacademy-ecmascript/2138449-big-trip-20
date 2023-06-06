@@ -11,7 +11,7 @@ export default class FilterPresenter {
   constructor({container, pointsModel, filterModel}) {
     this.#container = container;
     this.#pointsModel = pointsModel;
-    this.#filterModel = filterModel;
+    this.#filterModel = filterModel; // что-то надо делать с моделью
 
     this.#filters = generateFilters(this.#pointsModel.points);
 
