@@ -38,11 +38,6 @@ const POINT_TYPES = [
   'Restaurant',
 ];
 
-/*const EditType = {
-  EDITING: 'EDITING',
-  CREATING: 'CREATING'
-};*/
-
 const UserAction = {
   UPDATE_POINT: 'UPDATE_POINT',
   ADD_POINT: 'ADD_POINT',
@@ -55,4 +50,4 @@ const UpdateType = {
   MAJOR: 'MAJOR'
 };
 
-export {FilterType, SortType, CITIES, POINT_TYPES, UpdateType, UserAction, /*EditType*/};
+export {FilterType, SortType, CITIES, POINT_TYPES, UpdateType, UserAction};

@@ -4,6 +4,7 @@ import TripInfoView from './view/trip-info-view.js';
 import PointsModel from './model/point-model.js';
 import DestinationsModel from './model/destinations-model.js';
 import OffersModel from './model/offers-model.js';
+import FilterModel from './model/filter-model.js';
 import { render, RenderPosition } from './framework/render.js';
 
 const bodyElement = document.querySelector('body');
@@ -16,17 +17,20 @@ const eventListElement = pageMain.querySelector('.trip-events');
 const pointsModel = new PointsModel();
 const destinationsModel = new DestinationsModel();
 const offersModel = new OffersModel();
+const filterModel = new FilterModel();
 
 const boardPresenter = new BoardPresenter({
   boardContainer: eventListElement,
   pointsModel,
   destinationsModel,
   offersModel,
+  filterModel,
 });
 
 const filterPresenter = new FilterPresenter({
   container: filterElement,
   pointsModel,
+  filterModel,
 });
 
 render(new TripInfoView(), tripInfoElement, RenderPosition.AFTERBEGIN);

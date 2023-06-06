@@ -5,11 +5,13 @@ import {render} from '../framework/render.js';
 export default class FilterPresenter {
   #container = null;
   #pointsModel = null;
+  #filterModel = null;
   #filters = [];
 
-  constructor({container, pointsModel}) {
+  constructor({container, pointsModel, filterModel}) {
     this.#container = container;
     this.#pointsModel = pointsModel;
+    this.#filterModel = filterModel;
 
     this.#filters = generateFilters(this.#pointsModel.points);
 

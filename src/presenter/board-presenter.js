@@ -12,6 +12,7 @@ export default class BoardPresenter {
   #pointsModel = null;
   #destinationsModel = null;
   #offersModel = null;
+  #filterModel = null;
 
   #boardComponent = new ListView();
   #pointListComponent = new PointListView();
@@ -21,11 +22,12 @@ export default class BoardPresenter {
   #pointPresenter = new Map();
   #currentSortType = SortType.DAY;
 
-  constructor({boardContainer, pointsModel, destinationsModel, offersModel}) {
+  constructor({boardContainer, pointsModel, destinationsModel, offersModel, filterModel}) {
     this.#boardContainer = boardContainer;
     this.#pointsModel = pointsModel;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
+    this.#filterModel = filterModel;
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
   }
@@ -78,7 +80,7 @@ export default class BoardPresenter {
         this.#renderBoard();
         break;
       case UpdateType.MAJOR:
-        this.#clearBoard({resetRenderedPointCount: true, resetSortType: true}); // ??
+        this.#clearBoard({resetSortType: true}); // ??
         this.#renderBoard();
         break;
     }
