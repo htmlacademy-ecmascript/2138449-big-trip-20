@@ -51,18 +51,6 @@ function isPointPast(point) {
   return dayjs().isAfter(point.dateTo);
 }
 
-/*function isPointFuture(date) {
-  return dayjs().isBefore(dayjs(date), 'D');
-}
-
-function isPointPresent(date) {
-  return dayjs().isSame(dayjs(date), 'D');
-}
-
-function isPointPast(date) {
-  return dayjs().isAfter(dayjs(date), 'D');
-}*/
-
 function durationPoint(point) {
   return dayjs(point.dateTo).diff(dayjs(point.dateFrom));
 }

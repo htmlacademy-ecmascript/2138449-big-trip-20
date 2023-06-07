@@ -6,13 +6,14 @@ import NoPointsView from '../view/no-points-view.js';
 import PointPresenter from './point-presenter.js';
 import { sortByTime, sortByPrice } from '../utils/point.js';
 import { SortType, UpdateType, UserAction } from '../const.js';
+import { filter } from '../utils/filters.js'; // импортируем FilterType.EVERYTHING ЭД
 
 export default class BoardPresenter {
   #boardContainer = null;
   #pointsModel = null;
   #destinationsModel = null;
   #offersModel = null;
-  #filterModel = null;
+  #filterModel = null; // заводим фильтр модель
 
   #boardComponent = new ListView();
   #pointListComponent = new PointListView();
@@ -27,28 +28,29 @@ export default class BoardPresenter {
     this.#pointsModel = pointsModel;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
-    this.#filterModel = filterModel;
+    this.#filterModel = filterModel; // определяем фильтр модель
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
+    this.#filterModel.addObserver(this.#handleModelEvent); // подключаем Наблюдатель
   }
 
   get points() {
-    switch (this.#currentSortType) {
-      //case SortType.DAY // только надо это sortByDate проописать
-      // return [...this.#pointsModel.points].sort(sortByDate);
-      case SortType.TIME:
-        return [...this.#pointsModel.points].sort(sortByTime);
-      case SortType.PRICE:
-        return [...this.#pointsModel.points].sort(sortByPrice);
-     // default:
-     //   return [...this.#pointsModel.points];
-    }
+    const filterType = this.#filterModel.filter;
+    const points = this.#pointsModel.points;
+    const filteredPoints = filter[filterType](points);
 
-    return this.#pointsModel.points;
+    switch (this.#currentSortType) {
+      case SortType.DAY:
+        return filteredPoints;
+      case SortType.TIME:
+        return filteredPoints.sort(sortByTime);
+      case SortType.PRICE:
+        return filteredPoints.sort(sortByPrice);
+    }
+    return filteredPoints;
   }
 
   init() {
-
     this.#renderBoard();
   }
 
@@ -80,7 +82,7 @@ export default class BoardPresenter {
         this.#renderBoard();
         break;
       case UpdateType.MAJOR:
-        this.#clearBoard({resetSortType: true}); // ??
+        this.#clearBoard({resetSortType: true});
         this.#renderBoard();
         break;
     }

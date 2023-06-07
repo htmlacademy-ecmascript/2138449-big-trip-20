@@ -6,7 +6,7 @@ function createFilterItem(filter, currentFilterType) {
 
   return /*html*/`<div class="trip-filters__filter">
   <input
-   id="filter-${type}}"
+   id="filter-${type}"
   class="trip-filters__filter-input
   visually-hidden"
   type="radio"
@@ -15,8 +15,7 @@ function createFilterItem(filter, currentFilterType) {
   ${type === currentFilterType ? 'checked' : ''}
   ${count === 0 ? 'disabled' : ''}
   />
-  <label class="trip-filters__filter-label"
-  for="filter-${type}">
+  <label class="trip-filters__filter-label" for="filter-${type}">
   ${capitalize(type)}
   </label>
 </div>`;
