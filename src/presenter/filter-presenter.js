@@ -5,15 +5,15 @@ import { filter } from '../utils/filters.js';
 
 export default class FilterPresenter {
   #filterContainer = null;
-  #pointsModel = null;
   #filterModel = null;
+  #pointsModel = null;
 
   #filterComponent = null;
 
-  constructor({filterContainer, pointsModel, filterModel}) {
+  constructor({filterContainer, filterModel, pointsModel}) {
     this.#filterContainer = filterContainer;
-    this.#pointsModel = pointsModel;
     this.#filterModel = filterModel;
+    this.#pointsModel = pointsModel;
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
