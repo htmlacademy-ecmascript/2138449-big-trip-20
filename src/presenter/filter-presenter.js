@@ -1,23 +1,62 @@
 import FilterView from '../view/filter-view.js';
-import {generateFilters} from '../mock/filter.js';
-import {render} from '../framework/render.js';
+import { render, replace, remove } from '../framework/render.js';
+import { FilterType, UpdateType } from '../const.js';
+import { filter } from '../utils/filters.js';
 
 export default class FilterPresenter {
-  #container = null;
+  #filterContainer = null;
   #pointsModel = null;
   #filterModel = null;
-  #filters = [];
 
-  constructor({container, pointsModel, filterModel}) {
-    this.#container = container;
+  #filterComponent = null;
+
+  constructor({filterContainer, pointsModel, filterModel}) {
+    this.#filterContainer = filterContainer;
     this.#pointsModel = pointsModel;
-    this.#filterModel = filterModel; // что-то надо делать с моделью
+    this.#filterModel = filterModel;
 
-    this.#filters = generateFilters(this.#pointsModel.points);
+    this.#pointsModel.addObserver(this.#handleModelEvent);
+    this.#filterModel.addObserver(this.#handleModelEvent);
+  }
 
+  get filters() {
+    const points = this.#pointsModel.points;
+
+    return Object.values(FilterType).map((type) => ({
+      type,
+      count: filter[type](points).length
+    }));
   }
 
   init() {
-    render(new FilterView(this.#filters), this.#container);
+    const filters = this.filters;
+    const prevFilterComponent = this.#filterComponent;
+
+    this.#filterComponent = new FilterView({
+      filters,
+      currentFilterType: this.#filterModel.filter,
+      onFilterTypeChange: this.#handleFilterTypeChange,
+    });
+
+    if (prevFilterComponent === null) {
+      render(this.#filterComponent, this.#filterContainer);
+      return;
+    }
+
+    replace(this.#filterComponent, prevFilterComponent);
+    remove(prevFilterComponent);
+
   }
+
+  #handleModelEvent = () => {
+    this.init();
+  };
+
+  #handleFilterTypeChange = (filterType) => {
+    if (this.#filterModel.filter === filterType) {
+      return;
+    }
+
+    this.#filterModel.setFilter(UpdateType.MAJOR, filterType);
+  };
 }

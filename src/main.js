@@ -28,7 +28,7 @@ const boardPresenter = new BoardPresenter({
 });
 
 const filterPresenter = new FilterPresenter({
-  container: filterElement,
+  filterContainer: filterElement,
   pointsModel,
   filterModel,
 });
