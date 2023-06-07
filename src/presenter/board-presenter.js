@@ -1,12 +1,15 @@
-import { render, RenderPosition, remove } from '../framework/render.js';
 import PointListView from '../view/point-list-view.js';
 import SortView from '../view/sort-view.js';
 import ListView from '../view/list-view.js';
 import NoPointsView from '../view/no-points-view.js';
 import PointPresenter from './point-presenter.js';
+
+import { render, RenderPosition, remove } from '../framework/render.js';
 import { sortByTime, sortByPrice } from '../utils/point.js';
-import { SortType, UpdateType, UserAction } from '../const.js';
-import { filter } from '../utils/filters.js'; // импортируем FilterType.EVERYTHING ЭД
+
+import { SortType, UpdateType, UserAction } from '../const.js'; // + FilterType
+import { filter } from '../utils/filters.js'; // импортируем FilterType
+
 
 export default class BoardPresenter {
   #boardContainer = null;
@@ -38,6 +41,10 @@ export default class BoardPresenter {
     const filterType = this.#filterModel.filter;
     const points = this.#pointsModel.points;
     const filteredPoints = filter[filterType](points);
+    //const filterType = this.#filterModel.get();
+    //const points = this.#pointsModel.get();
+    //const filteredPoints = filter[filterType](points);
+    //return sort[this.#currentSortType](filteredPoints);
 
     switch (this.#currentSortType) {
       case SortType.DAY:

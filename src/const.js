@@ -3,7 +3,6 @@ const FilterType = {
   FUTURE: 'future',
   PRESENT: 'present',
   PAST: 'past',
-  FAVORITES: 'favorites',
 };
 
 const SortType = {
