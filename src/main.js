@@ -1,4 +1,5 @@
 import TripInfoView from './view/trip-info-view.js';
+
 import BoardPresenter from './presenter/board-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 
@@ -27,6 +28,7 @@ const boardPresenter = new BoardPresenter({
   destinationsModel,
   offersModel,
   filterModel,
+  //onNewPointDestroy: handleNewPointFormClose
 });
 
 const filterPresenter = new FilterPresenter({
@@ -35,6 +37,7 @@ const filterPresenter = new FilterPresenter({
   filterModel,
 });
 
+//render(newPointButtonComponent, pageHeaderElement);
 render(new TripInfoView(), tripInfoElement, RenderPosition.AFTERBEGIN);
 
 boardPresenter.init();
