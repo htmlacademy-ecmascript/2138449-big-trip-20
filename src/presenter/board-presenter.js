@@ -20,7 +20,7 @@ export default class BoardPresenter {
 
   #boardComponent = new ListView();
   #pointListComponent = new PointListView();
-  #noPointsComponent = new NoPointsView();
+  #noPointsComponent = null;
   #sortComponent = null;
 
   #pointPresenter = new Map();
@@ -40,9 +40,9 @@ export default class BoardPresenter {
   }
 
   get points() {
-    const filterType = this.#filterModel.filter;
+    this.#filterType = this.#filterModel.filter;
     const points = this.#pointsModel.points;
-    const filteredPoints = filter[filterType](points);
+    const filteredPoints = filter[this.#filterType](points);
 
     switch (this.#currentSortType) {
       case SortType.DAY:
@@ -107,7 +107,10 @@ export default class BoardPresenter {
   }
 
   #renderNoPoints() {
-    // render(this.#noPointsComponent, this.#pointListComponent.element, RenderPosition.AFTERBEGIN);
+    this.#noPointsComponent = new NoPointsView({
+      filterType: this.#filterType
+    });
+
     render(this.#noPointsComponent, this.#boardContainer);
   }
 
