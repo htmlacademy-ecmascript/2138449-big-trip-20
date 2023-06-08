@@ -4,19 +4,19 @@ import ListView from '../view/list-view.js';
 import NoPointsView from '../view/no-points-view.js';
 import PointPresenter from './point-presenter.js';
 
-import { render, RenderPosition, remove } from '../framework/render.js';
+import { render, remove } from '../framework/render.js';
 import { sortByTime, sortByPrice } from '../utils/point.js';
 
-import { SortType, UpdateType, UserAction } from '../const.js'; // + FilterType
-import { filter } from '../utils/filters.js'; // импортируем FilterType
-
+import { SortType, UpdateType, UserAction, FilterType } from '../const.js';
+import { filter } from '../utils/filters.js';
 
 export default class BoardPresenter {
   #boardContainer = null;
+
   #pointsModel = null;
   #destinationsModel = null;
   #offersModel = null;
-  #filterModel = null; // заводим фильтр модель
+  #filterModel = null;
 
   #boardComponent = new ListView();
   #pointListComponent = new PointListView();
@@ -24,6 +24,8 @@ export default class BoardPresenter {
   #sortComponent = null;
 
   #pointPresenter = new Map();
+
+  #filterType = FilterType.EVERYTHING;
   #currentSortType = SortType.DAY;
 
   constructor({boardContainer, pointsModel, destinationsModel, offersModel, filterModel}) {
@@ -31,20 +33,16 @@ export default class BoardPresenter {
     this.#pointsModel = pointsModel;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
-    this.#filterModel = filterModel; // определяем фильтр модель
+    this.#filterModel = filterModel;
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
-    this.#filterModel.addObserver(this.#handleModelEvent); // подключаем Наблюдатель
+    this.#filterModel.addObserver(this.#handleModelEvent);
   }
 
   get points() {
     const filterType = this.#filterModel.filter;
     const points = this.#pointsModel.points;
     const filteredPoints = filter[filterType](points);
-    //const filterType = this.#filterModel.get();
-    //const points = this.#pointsModel.get();
-    //const filteredPoints = filter[filterType](points);
-    //return sort[this.#currentSortType](filteredPoints);
 
     switch (this.#currentSortType) {
       case SortType.DAY:
@@ -68,13 +66,13 @@ export default class BoardPresenter {
   #handleViewAction = (actionType, updateType, update) => {
     switch (actionType) {
       case UserAction.UPDATE_POINT:
-        this.#pointsModel.updateTask(updateType, update);
+        this.#pointsModel.updatePoint(updateType, update);
         break;
       case UserAction.ADD_POINT:
-        this.#pointsModel.updateTask(updateType, update);
+        this.#pointsModel.addPoint(updateType, update);
         break;
       case UserAction.DELETE_POINT:
-        this.#pointsModel.updateTask(updateType, update);
+        this.#pointsModel.deletePoint(updateType, update); // тут ошибка
         break;
     }
   };
@@ -108,12 +106,9 @@ export default class BoardPresenter {
     this.#pointPresenter.set(point.id, pointPresenter);
   }
 
-  #renderPoints(points) {
-    points.forEach((point) => this.#renderPoint(point));
-  }
-
   #renderNoPoints() {
-    render(this.#noPointsComponent, this.#pointListComponent.element, RenderPosition.AFTERBEGIN);
+    // render(this.#noPointsComponent, this.#pointListComponent.element, RenderPosition.AFTERBEGIN);
+    render(this.#noPointsComponent, this.#boardContainer);
   }
 
   #handleSortTypeChange = (sortType) => {
@@ -131,7 +126,8 @@ export default class BoardPresenter {
       currentSortType: this.#currentSortType,
       onSortTypeChange: this.#handleSortTypeChange
     });
-    render(this.#sortComponent, this.#boardComponent.element, RenderPosition.AFTERBEGIN);
+    //render(this.#sortComponent, this.#boardComponent.element, RenderPosition.AFTERBEGIN);
+    render(this.#sortComponent, this.#boardContainer);
   }
 
   #clearBoard(resetSortType = false) {
@@ -153,15 +149,14 @@ export default class BoardPresenter {
   }
 
   #renderBoard() {
-    render(this.#boardComponent, this.#boardContainer);
+    this.#renderSort();
+    render(this.#pointListComponent, this.#boardContainer);
 
-    if (!this.points.length) { //Тут хз, может лучше проверять на ноль точек
+    if (!this.points.length) { //Тут может лучше проверять на ноль точек
       this.#renderNoPoints();
       return;
     }
 
-    this.#renderSort();
-    //this.#renderPointList(); // и тут непонятно
-    render(this.#pointListComponent, this.#boardComponent.element);
+    this.points.forEach((point) => this.#renderPoint(point));
   }
 }

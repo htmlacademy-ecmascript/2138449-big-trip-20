@@ -11,9 +11,11 @@ const Mode = {
 
 export default class PointPresenter {
   #pointListContainer = null;
+
   #destinationsModel = null;
   #pointsModel = null;
   #offersModel = null;
+
   #handleDataChange = null;
   #handleModeChange = null;
 
@@ -113,7 +115,7 @@ export default class PointPresenter {
 
   #favoriteClickHandler = () => {
     this.#handleDataChange(
-      UserAction.UPDATE_POINT, //тут наверное EditType.EDITING,
+      UserAction.UPDATE_POINT,
       UpdateType.MINOR,
       {...this.#point, isFavorite: !this.#point.isFavorite});
   };
