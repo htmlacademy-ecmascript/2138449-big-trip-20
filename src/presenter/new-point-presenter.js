@@ -1,7 +1,7 @@
-import { remove, render, RenderPosition } from '../framework/render.js';
 import PointEditView from '../view/edit-point-view.js';
-import {nanoid} from 'nanoid';
 
+import {nanoid} from 'nanoid';
+import { remove, render, RenderPosition } from '../framework/render.js';
 import { UserAction, UpdateType } from '../const.js';
 
 export default class NewPointPresenter {
@@ -32,7 +32,7 @@ export default class NewPointPresenter {
       destinationModel: this.#destinationsModel,
       offersModel: this.#offersModel,
       onFormSubmit: this.#handleFormSubmit,
-      onDeleteClick: this.#handleDeleteClick,
+      onFormCancel: this.#handleFormCancel,
       isNew: true,
     });
 
@@ -58,14 +58,12 @@ export default class NewPointPresenter {
     this.#handleDataChange(
       UserAction.ADD_POINT,
       UpdateType.MINOR,
-      // Пока у нас нет сервера, который бы после сохранения
-      // выдывал честный id задачи, нам нужно позаботиться об этом самим
       {id: nanoid(), ...point},
     );
     this.destroy();
   };
 
-  #handleDeleteClick = () => {
+  #handleFormCancel = () => {
     this.destroy();
   };
 
