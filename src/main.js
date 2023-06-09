@@ -1,5 +1,3 @@
-import TripInfoView from './view/trip-info-view.js';
-
 import BoardPresenter from './presenter/board-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 
@@ -7,8 +5,6 @@ import PointsModel from './model/point-model.js';
 import DestinationsModel from './model/destinations-model.js';
 import OffersModel from './model/offers-model.js';
 import FilterModel from './model/filter-model.js';
-
-import { render, RenderPosition } from './framework/render.js';
 
 const bodyElement = document.querySelector('body');
 const pageHeaderElement = bodyElement.querySelector('.page-header');
@@ -23,6 +19,7 @@ const offersModel = new OffersModel();
 const filterModel = new FilterModel();
 
 const boardPresenter = new BoardPresenter({
+  tripInfoContainer: tripInfoElement,
   boardContainer: eventListElement,
   pointsModel,
   destinationsModel,
@@ -36,9 +33,6 @@ const filterPresenter = new FilterPresenter({
   pointsModel,
   filterModel,
 });
-
-//render(newPointButtonComponent, pageHeaderElement);
-render(new TripInfoView(), tripInfoElement, RenderPosition.AFTERBEGIN);
 
 boardPresenter.init();
 filterPresenter.init();
