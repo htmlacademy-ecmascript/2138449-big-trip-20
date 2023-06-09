@@ -109,14 +109,12 @@ function createEditPointTemplate(destination, point, offers, isNew) {
         &euro;
       </label>
       <input class="event__input  event__input--price" id="event-price-1" type="text"
-      name="event-price" value="${basePrice}">
+      name="event-price" value="${he.encode(`${basePrice}`)}">
     </div>
 
     <button class="event__save-btn  btn  btn--blue" type="submit"
     ${destination?.name && point.dateFrom && point.dateTo ? '' : 'disabled'}>Save</button>
-
     <button class="event__reset-btn" type="reset">${isNew ? 'Cancel' : 'Delete'}</button>
-
     ${isNew ? '' : `<button class="event__rollup-btn" type="button">
     <span class="visually-hidden">Open event</span>
   </button>`}
@@ -192,7 +190,12 @@ export default class PointEditView extends AbstractStatefulView {
     );
   }
 
-  reset = (point) => this.updateElement({point});
+  reset = (point) => this.updateElement({point}); // ???
+
+  /*reset(point) {
+    this.updateElement(PointEditView.parsePointToState(point),
+    );
+  }*/
 
   removeElement() {
     super.removeElement();
@@ -207,9 +210,6 @@ export default class PointEditView extends AbstractStatefulView {
     this.element.querySelector('form')
       .addEventListener('submit', this.#formSubmitHandler); // может это в  else
 
-    this.element.querySelector('.event__type-group')
-      .addEventListener('change', this.#typeInputClick);
-
     if(this.#isNew) {
       this.element.querySelector('.event__reset-btn')
         .addEventListener('click', this.#formCancelHandler);
@@ -219,6 +219,9 @@ export default class PointEditView extends AbstractStatefulView {
       this.element.querySelector('.event__rollup-btn')
         .addEventListener('click', this.#formCancelHandler); // а это наверх
     }
+
+    this.element.querySelector('.event__type-group')
+      .addEventListener('change', this.#typeInputClick);
 
     this.element.querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationInputChange);
@@ -230,7 +233,7 @@ export default class PointEditView extends AbstractStatefulView {
     }
 
     this.element.querySelector('.event__input--price')
-      .addEventListener('change', this.#priceInputChange);
+      .addEventListener('change', this.#priceInputChange); // ?
 
     this.#setDatepickerFrom();
     this.#setDatepickerTo();

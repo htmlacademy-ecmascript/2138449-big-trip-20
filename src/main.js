@@ -25,7 +25,6 @@ const boardPresenter = new BoardPresenter({
   destinationsModel,
   offersModel,
   filterModel,
-  //onNewPointDestroy: handleNewPointFormClose
 });
 
 const filterPresenter = new FilterPresenter({

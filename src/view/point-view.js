@@ -1,5 +1,6 @@
 import { humanizePointDueDate, getPointDuration } from '../utils/point.js';
 import AbstractView from '../framework/view/abstract-view.js';
+import he from 'he';
 
 const MOUNTH_DAY = 'MMM DD';
 const HOUR_MIN = 'HH:mm';
@@ -25,7 +26,7 @@ function createNewPointTemplate(point, destination, offers) {
     <div class="event__type">
       <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
     </div>
-    <h3 class="event__title">${type} ${destination.name}</h3>
+    <h3 class="event__title">${type} ${he.encode(`${destination.name}`)}</h3>
     <div class="event__schedule">
       <p class="event__time">
         <time class="event__start-time" datetime="2019-03-18T10:30">${humanizePointDueDate(dateFrom, HOUR_MIN)}</time>
@@ -35,7 +36,7 @@ function createNewPointTemplate(point, destination, offers) {
       <p class="event__duration">${getPointDuration(dateFrom, dateTo)}</p>
     </div>
     <p class="event__price">
-      &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
+      &euro;&nbsp;<span class="event__price-value">${he.encode(`${basePrice}`)}</span>
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
@@ -72,7 +73,7 @@ export default class PointView extends AbstractView {
 
     this.element.querySelector('.event__rollup-btn')
       .addEventListener('click', this.#editClickHandler);
-    this.element.querySelector('.event__favorite-icon')
+    this.element.querySelector('.event__favorite-btn')
       .addEventListener('click', this.#favoriteClickHandler);
   }
 
