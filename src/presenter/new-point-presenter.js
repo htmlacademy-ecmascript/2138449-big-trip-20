@@ -1,6 +1,6 @@
 import PointEditView from '../view/edit-point-view.js';
 
-import {nanoid} from 'nanoid';
+import { nanoid } from 'nanoid';
 import { remove, render, RenderPosition } from '../framework/render.js';
 import { UserAction, UpdateType } from '../const.js';
 
