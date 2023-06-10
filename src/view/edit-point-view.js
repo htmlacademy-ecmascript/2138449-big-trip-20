@@ -208,7 +208,7 @@ export default class PointEditView extends AbstractStatefulView {
 
   _restoreHandlers = () => {
     this.element.querySelector('form')
-      .addEventListener('submit', this.#formSubmitHandler); // может это в  else
+      .addEventListener('submit', this.#formSubmitHandler);
 
     if(this.#isNew) {
       this.element.querySelector('.event__reset-btn')
@@ -217,7 +217,7 @@ export default class PointEditView extends AbstractStatefulView {
       this.element.querySelector('.event__reset-btn')
         .addEventListener('click', this.#formDeleteClickHandler);
       this.element.querySelector('.event__rollup-btn')
-        .addEventListener('click', this.#formCancelHandler); // а это наверх
+        .addEventListener('click', this.#formCancelHandler);
     }
 
     this.element.querySelector('.event__type-group')

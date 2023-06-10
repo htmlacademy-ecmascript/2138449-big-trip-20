@@ -1,7 +1,7 @@
 import PointListView from '../view/point-list-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointsView from '../view/no-points-view.js';
-import NewPointButtonView from '../view/new-point-button-view.js';
+
 import TripInfoView from '../view/trip-info-view.js';
 
 import PointPresenter from './point-presenter.js';
@@ -26,7 +26,6 @@ export default class BoardPresenter {
   #tripInfoComponent = new TripInfoView();
   #noPointsComponent = null;
   #sortComponent = null;
-  #newPointButtonComponent = null;
 
   #pointPresenter = new Map();
   #newPointPresenter = null;
@@ -34,7 +33,7 @@ export default class BoardPresenter {
   #filterType = FilterType.EVERYTHING;
   #currentSortType = SortType.DAY;
 
-  constructor({tripInfoContainer, boardContainer, pointsModel, destinationsModel, offersModel, filterModel}) {
+  constructor({tripInfoContainer, boardContainer, pointsModel, destinationsModel, offersModel, filterModel, onNewPointDestroy}) {
     this.#tripInfoContainer = tripInfoContainer;
     this.#boardContainer = boardContainer;
     this.#pointsModel = pointsModel;
@@ -42,23 +41,10 @@ export default class BoardPresenter {
     this.#offersModel = offersModel;
     this.#filtersModel = filterModel;
 
-    const handleNewPointButtonClick = () => {
-      this.#createPoint();
-      this.#newPointButtonComponent.element.disabled = true;
-    };
-
-    const handleNewPointFormClose = () => {
-      this.#newPointButtonComponent.element.disabled = false;
-    };
-
-    this.#newPointButtonComponent = new NewPointButtonView({
-      onClick: handleNewPointButtonClick,
-    });
-
     this.#newPointPresenter = new NewPointPresenter({
       pointListContainer: this.#pointListComponent.element,
       onDataChange: this.#handleViewAction,
-      onDestroy: handleNewPointFormClose,
+      onDestroy: onNewPointDestroy,
       destinationsModel: this.#destinationsModel,
       offersModel: this.#offersModel,
     });
@@ -86,14 +72,13 @@ export default class BoardPresenter {
   init() {
     this.#renderBoard();
     this.#renderTripInfo();
-    render(this.#newPointButtonComponent, this.#tripInfoContainer);
   }
 
   #renderTripInfo() {
     render(this.#tripInfoComponent, this.#tripInfoContainer, RenderPosition.AFTERBEGIN);
   }
 
-  #createPoint() {
+  createPoint() {
     this.#currentSortType = SortType.DAY;
     this.#filtersModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
     this.#newPointPresenter.init();

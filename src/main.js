@@ -1,10 +1,11 @@
 import BoardPresenter from './presenter/board-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
-
+import NewPointButtonView from './view/new-point-button-view.js';
 import PointsModel from './model/point-model.js';
 import DestinationsModel from './model/destinations-model.js';
 import OffersModel from './model/offers-model.js';
 import FilterModel from './model/filter-model.js';
+import { render } from './framework/render.js';
 
 const bodyElement = document.querySelector('body');
 const pageHeaderElement = bodyElement.querySelector('.page-header');
@@ -25,6 +26,7 @@ const boardPresenter = new BoardPresenter({
   destinationsModel,
   offersModel,
   filterModel,
+  onNewTaskDestroy: handleNewPointFormClose,
 });
 
 const filterPresenter = new FilterPresenter({
@@ -32,6 +34,21 @@ const filterPresenter = new FilterPresenter({
   pointsModel,
   filterModel,
 });
+
+const newPointButtonComponent = new NewPointButtonView({
+  onClick: handleNewPointButtonClick,
+});
+
+function handleNewPointFormClose() {
+  newPointButtonComponent.element.disabled = false;
+}
+
+function handleNewPointButtonClick() {
+  boardPresenter.createPoint();
+  newPointButtonComponent.element.disabled = true;
+}
+
+render(newPointButtonComponent, tripInfoElement);
 
 boardPresenter.init();
 filterPresenter.init();
