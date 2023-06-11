@@ -31,7 +31,9 @@ function createEditPointTemplate(destination, point, offers, isNew) {
       <div class="event__offer-selector">
         <input class="event__offer-checkbox visually-hidden"
         id="event-offer-${type}-${offer.id}" value="${offer.id}"
-        type="checkbox" name="event-offer-${type}" ${point.offers.includes(offer.id) ? 'checked' : ''}>
+        type="checkbox" name="event-offer-${type}" ${point.offers.includes(offer.id) ? 'checked' : ''}
+        data-offer-id="${offer.id}"
+        >
         <label class="event__offer-label" for="event-offer-${type}-${offer.id}">
           <span class="event__offer-title">${offer.title}</span>
           &plus;&euro;&nbsp;
@@ -193,9 +195,12 @@ export default class PointEditView extends AbstractStatefulView {
   reset = (point) => this.updateElement({point});
 
   /*reset(point) {
-    this.updateElement(PointEditView.parsePointToState(point),
-    );
+    this.updateElement({
+      point,
+      offers: this.#offersModel.getByType(point.type)
+    });
   }*/
+
 
   removeElement() {
     super.removeElement();
