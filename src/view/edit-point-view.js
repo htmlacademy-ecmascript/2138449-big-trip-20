@@ -233,7 +233,7 @@ export default class PointEditView extends AbstractStatefulView {
     }
 
     this.element.querySelector('.event__input--price')
-      .addEventListener('change', this.#priceInputChange); // ?
+      .addEventListener('change', this.#priceInputChange);
 
     this.#setDatepickerFrom();
     this.#setDatepickerTo();
@@ -255,10 +255,11 @@ export default class PointEditView extends AbstractStatefulView {
   #priceInputChange = (evt) => {
     evt.preventDefault();
 
+    const price = parseInt(evt.target.value, 10);
     this._setState({
       point: {
         ...this._state.point,
-        basePrice: evt.target.valueAsNumber
+        basePrice: price
       }
     });
   };
@@ -363,5 +364,23 @@ export default class PointEditView extends AbstractStatefulView {
   static parsePointToState = ({point}) => ({point});
 
   static parseStateToPoint = (state) => state.point;
-}
 
+  /*static parsePointToState(point) {
+    return {...point,
+      isDisabled: false,
+      isSaving: false,
+      isDeleting: false,
+    };
+  }
+
+  static parseStateToPoint(state) {
+    const point = {...state};
+
+    delete point.isDisabled;
+    delete point.isSaving;
+    delete point.isDeleting;
+
+    return point;
+  }*/
+
+}

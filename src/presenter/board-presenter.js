@@ -179,7 +179,7 @@ export default class BoardPresenter {
     this.#renderSort();
     render(this.#pointListComponent, this.#boardContainer);
 
-    if (!this.points.length) { //Тут может лучше проверять на ноль точек
+    if (!this.points.length) {
       this.#renderNoPoints();
       return;
     }
