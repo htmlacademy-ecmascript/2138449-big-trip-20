@@ -29,7 +29,7 @@ export default class NewPointPresenter {
     }
 
     this.#pointEditComponent = new PointEditView({
-      destinationModel: this.#destinationsModel,
+      destinationsModel: this.#destinationsModel,
       offersModel: this.#offersModel,
       onFormSubmit: this.#handleFormSubmit,
       onFormCancel: this.#handleFormCancel,

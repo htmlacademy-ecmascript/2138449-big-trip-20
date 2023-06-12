@@ -201,7 +201,6 @@ export default class PointEditView extends AbstractStatefulView {
     });
   }*/
 
-
   removeElement() {
     super.removeElement();
 

@@ -48,18 +48,19 @@ export default class PointPresenter {
     const prevPointEditComponent = this.#pointEditComponent;
 
     this.#pointComponent = new PointView({
-      point: this.#point,
-      destinations: destination,
+      point: this.#point, // ?
+      destinations: destination, // ?
       offers: checkedOffers,
       onEditClick: this.#editClickHandler,
       onFavoriteClick: this.#favoriteClickHandler,
     });
+
     this.#pointEditComponent = new PointEditView({
       onFormSubmit: this.#formSubmitHandler,
       onFormCancel: this.#cancelButtonClickHandler,
       onDeleteClick: this.#deleteClickHandler,
       destinationsModel: this.#destinationsModel,
-      point: this.#point,
+      point: this.#point, // point,
       offersModel: this.#offersModel,
     });
 
