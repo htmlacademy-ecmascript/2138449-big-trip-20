@@ -173,7 +173,7 @@ export default class PointEditView extends AbstractStatefulView {
     this.#handleDeleteClick = onDeleteClick;
 
     this.#destinationsModel = destinationsModel;
-    this._setState(PointEditView.parsePointToState({point}));
+    this._setState(PointEditView.parsePointToState(point));
     this.#offersModel = offersModel;
     this.#isNew = isNew;
 
@@ -181,25 +181,22 @@ export default class PointEditView extends AbstractStatefulView {
   }
 
   get template() {
-    const destinations = this.#destinationsModel.getById(this._state.point.destination);
-    const offers = this.#offersModel.getByType(this._state.point.type);
+    const destinations = this.#destinationsModel.getById(this._state.destination);
+    const offers = this.#offersModel.getByType(this._state.type);
 
     return createEditPointTemplate(
       destinations,
-      this._state.point,
+      this._state,
       offers,
       this.#isNew
     );
   }
 
-  reset = (point) => this.updateElement({point});
-
-  /*reset(point) {
-    this.updateElement({
-      point,
-      offers: this.#offersModel.getByType(point.type)
-    });
-  }*/
+  reset(point) {
+    this.updateElement(
+      PointEditView.parsePointToState(point),
+    );
+  }
 
   removeElement() {
     super.removeElement();
@@ -249,10 +246,8 @@ export default class PointEditView extends AbstractStatefulView {
     const checkedBoxes = Array.from(this.element.querySelectorAll('.event__offer-checkbox:checked'));
 
     this._setState({
-      point: {
-        ...this._state.point,
-        offers: checkedBoxes.map((element) => element.dataset.offerId)
-      }
+      ...this._state,
+      offers: checkedBoxes.map((element) => element.dataset.offerId)
     });
   };
 
@@ -261,10 +256,7 @@ export default class PointEditView extends AbstractStatefulView {
 
     const price = parseInt(evt.target.value, 10);
     this._setState({
-      point: {
-        ...this._state.point,
-        basePrice: price
-      }
+      basePrice: price
     });
   };
 
@@ -273,8 +265,8 @@ export default class PointEditView extends AbstractStatefulView {
 
     const selectedType = evt.target.value;
     const allOffers = this.#offersModel.pointOffers;
-    function getOffersByType(type) {
 
+    function getOffersByType(type) {
       const offersForSelectedType = allOffers.filter((offer) => offer.type === type);
       return offersForSelectedType;
     }
@@ -282,11 +274,8 @@ export default class PointEditView extends AbstractStatefulView {
     const offersForType = getOffersByType(selectedType);
 
     this.updateElement({
-      point: {
-        ...this._state.point,
-        type: selectedType,
-        offers: [ offersForType ],
-      }
+      type: selectedType,
+      offers: [ offersForType ],
     });
   };
 
@@ -302,10 +291,7 @@ export default class PointEditView extends AbstractStatefulView {
       : null;
 
     this.updateElement({
-      point: {
-        ...this._state.point,
-        destination: selectedDestinationId
-      }
+      destination: selectedDestinationId
     });
   };
 
@@ -365,26 +351,15 @@ export default class PointEditView extends AbstractStatefulView {
     this.#handleDeleteClick(PointEditView.parseStateToPoint(this._state));
   };
 
-  static parsePointToState = ({point}) => ({point});
-
-  static parseStateToPoint = (state) => state.point;
-
-  /*static parsePointToState(point) {
+  static parsePointToState(point) {
     return {...point,
-      isDisabled: false,
-      isSaving: false,
-      isDeleting: false,
     };
   }
 
   static parseStateToPoint(state) {
-    const point = {...state};
-
-    delete point.isDisabled;
-    delete point.isSaving;
-    delete point.isDeleting;
-
+    const point = {...state,
+    };
     return point;
-  }*/
+  }
 
 }
