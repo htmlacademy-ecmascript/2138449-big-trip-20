@@ -5,7 +5,11 @@ import PointsModel from './model/point-model.js';
 import DestinationsModel from './model/destinations-model.js';
 import OffersModel from './model/offers-model.js';
 import FilterModel from './model/filter-model.js';
+import PointsApiService from './points-api-service.js';
 import { render } from './framework/render.js';
+
+const AUTHORIZATION = 'Basic rS6sfS24wml1sa2j';
+const END_POINT = 'https://20.ecmascript.pages.academy/big-trip';
 
 const bodyElement = document.querySelector('body');
 const pageHeaderElement = bodyElement.querySelector('.page-header');
@@ -14,9 +18,14 @@ const filterElement = tripInfoElement.querySelector('.trip-controls__filters');
 const pageMain = bodyElement.querySelector('.page-main');
 const eventListElement = pageMain.querySelector('.trip-events');
 
-const pointsModel = new PointsModel();
-const destinationsModel = new DestinationsModel();
-const offersModel = new OffersModel();
+const pointsApiService = new PointsApiService(END_POINT, AUTHORIZATION);
+const destinationsModel = new DestinationsModel(pointsApiService);
+const offersModel = new OffersModel(pointsApiService);
+const pointsModel = new PointsModel({
+  service: pointsApiService,
+  destinationsModel,
+  offersModel
+});
 const filterModel = new FilterModel();
 
 const boardPresenter = new BoardPresenter({
