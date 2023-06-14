@@ -61,3 +61,4 @@ render(newPointButtonComponent, tripInfoElement);
 
 boardPresenter.init();
 filterPresenter.init();
+pointsModel.init();

@@ -1,5 +1,4 @@
 import Observable from '../framework/observable.js';
-import { getRandomPoint } from '../mock/points.js';
 
 const POINT_COUNT = 3;
 
@@ -8,25 +7,32 @@ export default class PointsModel extends Observable {
   #destinationsModel = null;
   #offersModel = null;
 
-  #points = Array.from({length: POINT_COUNT}, getRandomPoint);
+  #points = [];
 
   constructor({service, destinationsModel, offersModel}) {
     super();
     this.#service = service;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
-
-    this.#service.points.then((points) => {
-      console.log(points.map(this.#adaptToClient));
-      // Есть проблема: cтруктура объекта похожа, но некоторые ключи называются иначе,
-      // а ещё на сервере используется snake_case, а у нас camelCase.
-      // Можно, конечно, переписать часть нашего клиентского приложения, но зачем?
-      // Есть вариант получше - паттерн "Адаптер"
-    });
   }
 
   get points() {
     return this.#points;
+  }
+
+  async init() {
+    try {
+      await Promise.all([
+        this.#destinationsModel.init(),
+        this.#offersModel.init()
+      ]);
+      const points = await this.#service.points; // !
+      this.#points = points.map(this.#adaptToClient);
+      //this._notify()
+    } catch(err) {
+      this.#points = [];
+      //this._notify()
+    }
   }
 
   updatePoint(updateType, update) {
