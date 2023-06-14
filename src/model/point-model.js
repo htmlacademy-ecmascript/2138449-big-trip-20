@@ -1,6 +1,7 @@
 import Observable from '../framework/observable.js';
+import { UpdateType } from '../const.js';
 
-const POINT_COUNT = 3;
+//const POINT_COUNT = 3;
 
 export default class PointsModel extends Observable {
   #service = null;
@@ -33,6 +34,8 @@ export default class PointsModel extends Observable {
       this.#points = [];
       //this._notify()
     }
+
+    this._notify(UpdateType.INIT);
   }
 
   updatePoint(updateType, update) {
