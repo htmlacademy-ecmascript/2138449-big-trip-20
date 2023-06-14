@@ -339,7 +339,7 @@ export default class PointEditView extends AbstractStatefulView {
         defaultDate: this._state.point.dateFrom,
         onClose: this.#dateFromChangeHandler,
         enableTime: true,
-        maxDate: this._state.dateTo,
+        maxDate: this._state.point.dateTo,
         locale: {
           firstDayOfWeek: 1,
         },

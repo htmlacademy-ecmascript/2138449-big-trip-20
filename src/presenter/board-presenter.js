@@ -146,7 +146,7 @@ export default class BoardPresenter {
     });
 
     render(this.#noPointsComponent, this.#boardContainer);
-   // remove(this.#loadingComponent); // ?
+    // remove(this.#loadingComponent); // ?
   }
 
   #renderLoading() {
