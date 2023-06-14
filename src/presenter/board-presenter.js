@@ -121,6 +121,7 @@ export default class BoardPresenter {
         break;
       case UpdateType.INIT:
         this.#isLoading = false;
+        remove(this.#loadingComponent);
         this.#clearBoard();
         this.#renderBoard();
         break;
@@ -192,6 +193,7 @@ export default class BoardPresenter {
   #renderBoard() {
     this.#renderSort();
     render(this.#pointListComponent, this.#boardContainer);
+
     if (this.#isLoading) {
       this.#renderLoading();
       return;
