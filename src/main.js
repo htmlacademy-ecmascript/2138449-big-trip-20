@@ -1,10 +1,11 @@
-import ListPresenter from './presenter/trip-list-presenter.js';
+import BoardPresenter from './presenter/board-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
-import TripInfoView from './view/trip-info-view.js';
+import NewPointButtonView from './view/new-point-button-view.js';
 import PointsModel from './model/point-model.js';
 import DestinationsModel from './model/destinations-model.js';
 import OffersModel from './model/offers-model.js';
-import { render, RenderPosition } from './framework/render.js';
+import FilterModel from './model/filter-model.js';
+import { render } from './framework/render.js';
 
 const bodyElement = document.querySelector('body');
 const pageHeaderElement = bodyElement.querySelector('.page-header');
@@ -16,20 +17,38 @@ const eventListElement = pageMain.querySelector('.trip-events');
 const pointsModel = new PointsModel();
 const destinationsModel = new DestinationsModel();
 const offersModel = new OffersModel();
+const filterModel = new FilterModel();
 
-const listPresenter = new ListPresenter({
+const boardPresenter = new BoardPresenter({
+  tripInfoContainer: tripInfoElement,
   boardContainer: eventListElement,
   pointsModel,
   destinationsModel,
   offersModel,
+  filterModel,
+  onNewPointDestroy: handleNewPointFormClose,
 });
 
 const filterPresenter = new FilterPresenter({
-  container: filterElement,
+  filterContainer: filterElement,
   pointsModel,
+  filterModel,
 });
 
-render(new TripInfoView(), tripInfoElement, RenderPosition.AFTERBEGIN);
+const newPointButtonComponent = new NewPointButtonView({
+  onClick: handleNewPointButtonClick,
+});
 
-listPresenter.init();
+function handleNewPointFormClose() {
+  newPointButtonComponent.element.disabled = false;
+}
+
+function handleNewPointButtonClick() {
+  boardPresenter.createPoint();
+  newPointButtonComponent.element.disabled = true;
+}
+
+render(newPointButtonComponent, tripInfoElement);
+
+boardPresenter.init();
 filterPresenter.init();

@@ -51,16 +51,35 @@ function isPointPast(point) {
   return dayjs().isAfter(point.dateTo);
 }
 
-function durationPoint(point) {
-  return dayjs(point.dateTo).diff(dayjs(point.dateFrom));
+function getWeight(optionA, optionB) {
+  if (optionA === null && optionB === null) {
+    return 0;
+  }
+
+  if (optionA === null) {
+    return 1;
+  }
+
+  if (optionB === null) {
+    return -1;
+  }
+
+  return null;
 }
 
-function sortByTime(points) {
-  return points.sort((a, b) => durationPoint(b) - durationPoint(a));
+function sortByTime(waypA, waypB) {
+  const weight = getWeight(waypA.dateFrom, waypB.dateFrom);
+
+  return weight ?? dayjs(waypB.dateTo).diff(dayjs(waypB.dateFrom)) - dayjs(waypA.dateTo).diff(dayjs(waypA.dateFrom));
+
 }
 
-function sortByPrice(points) {
-  return points.sort((a, b) => b.basePrice - a.basePrice);
+function sortByPrice(waypA, waypB) {
+  return waypB.basePrice - waypA.basePrice;
+}
+
+function isDatesEqual(dateA, dateB) {
+  return (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB, 'D');
 }
 
 export {
@@ -70,4 +89,6 @@ export {
   isPointPresent,
   isPointPast,
   sortByTime,
-  sortByPrice};
+  sortByPrice,
+  isDatesEqual,
+};
