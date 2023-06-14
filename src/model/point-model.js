@@ -1,8 +1,6 @@
 import Observable from '../framework/observable.js';
 import { UpdateType } from '../const.js';
 
-//const POINT_COUNT = 3;
-
 export default class PointsModel extends Observable {
   #service = null;
   #destinationsModel = null;
@@ -27,14 +25,13 @@ export default class PointsModel extends Observable {
         this.#destinationsModel.init(),
         this.#offersModel.init()
       ]);
-      const points = await this.#service.points; // !
+      const points = await this.#service.points;
       this.#points = points.map(this.#adaptToClient);
-      //this._notify()
+      this._notify(UpdateType.INIT);
     } catch(err) {
       this.#points = [];
-      //this._notify()
+      this._notify(UpdateType.INIT);
     }
-    this._notify(UpdateType.INIT);
   }
 
   async updatePoint(updateType, update) {

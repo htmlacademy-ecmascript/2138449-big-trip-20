@@ -23,7 +23,7 @@ export default class PointsApiService extends ApiService {
       .then(ApiService.parseResponse);
   }
 
-  async updatePoint(update) {
+  async updatePoint(update) { // ? передавать надо точку?
     const response = await this._load({
       url: `points/${update.id}`,
       method: Method.PUT,
@@ -66,10 +66,10 @@ export default class PointsApiService extends ApiService {
       'is_favorite': point.isFavorite,
     };
 
-    adaptedPoint.destination = adaptedPoint.destination.id;
+    adaptedPoint.destination = adaptedPoint.destination.id; // ??
 
     if (adaptedPoint.offers.length) {
-      adaptedPoint.offers = adaptedPoint.offers.map((elem) => elem.id);
+      adaptedPoint.offers = adaptedPoint.offers.map((elem) => elem.id); // ??
     }
 
     delete adaptedPoint.isFavorite;
