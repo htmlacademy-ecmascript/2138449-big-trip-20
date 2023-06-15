@@ -155,7 +155,7 @@ export default class PointEditView extends AbstractStatefulView {
 
   #destinationsModel = null;
   #offersModel = null;
-  #point = null;
+
   #datepicker = null;
 
   #isNew = false;
