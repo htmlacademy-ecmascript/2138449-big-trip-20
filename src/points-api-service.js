@@ -66,12 +66,6 @@ export default class PointsApiService extends ApiService {
       'is_favorite': point.isFavorite,
     };
 
-    adaptedPoint.destination = adaptedPoint.destination.id; // ??
-
-    if (adaptedPoint.offers.length) {
-      adaptedPoint.offers = adaptedPoint.offers.map((elem) => elem.id); // ??
-    }
-
     delete adaptedPoint.isFavorite;
     delete adaptedPoint.dateTo;
     delete adaptedPoint.dateFrom;
