@@ -23,7 +23,7 @@ export default class PointsApiService extends ApiService {
       .then(ApiService.parseResponse);
   }
 
-  async updatePoint(update) { // ? передавать надо точку?
+  async updatePoint(update) {
     const response = await this._load({
       url: `points/${update.id}`,
       method: Method.PUT,
