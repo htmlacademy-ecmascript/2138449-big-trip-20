@@ -9,7 +9,7 @@ import PointPresenter from './point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
 
 import { render, remove, RenderPosition } from '../framework/render.js';
-import { sortByTime, sortByPrice } from '../utils/point.js'; //+может по дате еще
+import { sortByTime, sortByPrice } from '../utils/point.js';
 
 import { SortType, UpdateType, UserAction, FilterType } from '../const.js';
 import { filter } from '../utils/filters.js';
