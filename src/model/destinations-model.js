@@ -1,9 +1,17 @@
-import { destinationsMock } from '../mock/points.js';
-
 export default class DestinationsModel {
-  #destinations = destinationsMock;
+  #destinations = [];
+  #service = null;
+
+  constructor(service) {
+    this.#service = service;
+  }
 
   get pointDestinations() {
+    return this.#destinations;
+  }
+
+  async init() {
+    this.#destinations = await this.#service.destinations;
     return this.#destinations;
   }
 
