@@ -1,5 +1,5 @@
 import { humanizePointDueDate } from '../utils/point.js';
-import { CITIES, POINT_TYPES } from '../const.js';
+import { POINT_TYPES } from '../const.js';
 import { capitalize } from '../utils/common.js';
 
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
@@ -20,7 +20,7 @@ const DEFAULT_POINT = {
   type: DEFAULT_TYPE
 };
 
-function createEditPointTemplate(destination, point, offers, isNew) {
+function createEditPointTemplate(allDestinations, destination, point, offers, isNew) {
   const {dateFrom, dateTo, type, basePrice, isDeleting, isDisabled, isSaving} = point;
 
   const dateStart = humanizePointDueDate(dateFrom, DATE_FORMAT);
@@ -49,9 +49,9 @@ function createEditPointTemplate(destination, point, offers, isNew) {
       `<img class="event__photo" src="${picture.src}" alt="Event photo">`).join('');
   }
 
-  function createCityTemplate(cities) {
-    return cities.map((city) =>
-      `<option value="${city}"></option>`).join('');
+  function createCityTemplate(destinationsList) {
+    return destinationsList.map((elem) =>
+      `<option value="${elem.name}"></option>`).join('');
   }
 
   function createPointsTypeTemplate(pointTypes) {
@@ -92,7 +92,7 @@ function createEditPointTemplate(destination, point, offers, isNew) {
       <input class="event__input  event__input--destination" id="event-destination-1"
       type="text" name="event-destination" value="${destination ? he.encode(`${destination.name}`) : ''}" list="destination-list-1" ${isDisabled ? 'disabled' : ''}>
       <datalist id="destination-list-1">
-        ${createCityTemplate(CITIES)}
+      ${allDestinations ? createCityTemplate(allDestinations) : ''}
       </datalist>
     </div>
 
@@ -184,11 +184,13 @@ export default class PointEditView extends AbstractStatefulView {
   }
 
   get template() {
-    const destinations = this.#destinationsModel.getById(this._state.destination);
+    const allDestinations = this.#destinationsModel.pointDestinations;
+    const destination = this.#destinationsModel.getById(this._state.destination);
     const offers = this.#offersModel.getByType(this._state.type);
 
     return createEditPointTemplate(
-      destinations,
+      allDestinations,
+      destination,
       this._state,
       offers,
       this.#isNew
