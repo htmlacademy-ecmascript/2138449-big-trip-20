@@ -5,6 +5,7 @@ export default class PointsModel extends Observable {
   #service = null;
   #destinationsModel = null;
   #offersModel = null;
+  #isError = false;
 
   #points = [];
 
@@ -27,10 +28,15 @@ export default class PointsModel extends Observable {
       ]);
       const points = await this.#service.points;
       this.#points = points.map(this.#adaptToClient);
-      this._notify(UpdateType.INIT);
+      this._notify(UpdateType.INIT, {
+        isError: this.#isError,
+      });
     } catch(err) {
       this.#points = [];
-      this._notify(UpdateType.INIT);
+      this.#isError = true;
+      this._notify(UpdateType.INIT, {
+        isisError: this.#isError,
+      });
     }
   }
 

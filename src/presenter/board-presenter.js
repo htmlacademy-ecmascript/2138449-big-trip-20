@@ -2,6 +2,7 @@ import PointListView from '../view/point-list-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointsView from '../view/no-points-view.js';
 import LoadingView from '../view/loading-view.js';
+import ServerErrorView from '../view/server-error-view.js';
 
 import TripInfoView from '../view/trip-info-view.js';
 
@@ -32,6 +33,7 @@ export default class BoardPresenter {
   #pointListComponent = new PointListView();
   #tripInfoComponent = new TripInfoView();
   #loadingComponent = new LoadingView();
+  #serverErrorComponent = new ServerErrorView();
   #noPointsComponent = null;
   #sortComponent = null;
 
@@ -149,6 +151,11 @@ export default class BoardPresenter {
       case UpdateType.INIT:
         this.#isLoading = false;
         remove(this.#loadingComponent);
+        remove(this.#serverErrorComponent);
+        if (data.isError) {
+          this.#renderServerError();
+          break;
+        }
         this.#clearBoard();
         this.#renderBoard();
         break;
@@ -178,6 +185,10 @@ export default class BoardPresenter {
 
   #renderLoading() {
     render(this.#loadingComponent, this.#pointListComponent.element);
+  }
+
+  #renderServerError() {
+    render(this.#serverErrorComponent, this.#boardContainer);
   }
 
   #handleSortTypeChange = (sortType) => {
