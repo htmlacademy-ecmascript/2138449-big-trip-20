@@ -6,14 +6,16 @@ export default class PointsModel extends Observable {
   #destinationsModel = null;
   #offersModel = null;
   #isError = false;
+  #handleError = null;
 
   #points = [];
 
-  constructor({service, destinationsModel, offersModel}) {
+  constructor({service, destinationsModel, offersModel, handleError}) {
     super();
     this.#service = service;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
+    this.#handleError = handleError;
   }
 
   get points() {
@@ -33,6 +35,7 @@ export default class PointsModel extends Observable {
       });
     } catch(err) {
       this.#points = [];
+      this.#handleError();
       this.#isError = true;
       this._notify(UpdateType.INIT, {
         isError: this.#isError,

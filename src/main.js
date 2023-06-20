@@ -24,7 +24,8 @@ const offersModel = new OffersModel(pointsApiService);
 const pointsModel = new PointsModel({
   service: pointsApiService,
   destinationsModel,
-  offersModel
+  offersModel,
+  handleError: blockNewPointButton,
 });
 const filterModel = new FilterModel();
 
@@ -54,6 +55,10 @@ function handleNewPointFormClose() {
 
 function handleNewPointButtonClick() {
   boardPresenter.createPoint();
+  newPointButtonComponent.element.disabled = true;
+}
+
+function blockNewPointButton() {
   newPointButtonComponent.element.disabled = true;
 }
 
