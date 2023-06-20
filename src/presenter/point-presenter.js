@@ -13,7 +13,6 @@ export default class PointPresenter {
   #pointListContainer = null;
 
   #destinationsModel = null;
-  #pointsModel = null;
   #offersModel = null;
 
   #handleDataChange = null;
@@ -25,10 +24,9 @@ export default class PointPresenter {
   #point = null;
   #mode = Mode.DEFAULT;
 
-  constructor ({pointListContainer, destinationsModel, pointsModel, offersModel, onDataChange, onModeChange}) {
+  constructor ({pointListContainer, destinationsModel, offersModel, onDataChange, onModeChange}) {
     this.#pointListContainer = pointListContainer;
     this.#destinationsModel = destinationsModel;
-    this.#pointsModel = pointsModel;
     this.#offersModel = offersModel;
     this.#handleDataChange = onDataChange;
     this.#handleModeChange = onModeChange;

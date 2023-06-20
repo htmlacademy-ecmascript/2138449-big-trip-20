@@ -69,13 +69,19 @@ function getWeight(optionA, optionB) {
 
 function sortByTime(waypA, waypB) {
   const weight = getWeight(waypA.dateFrom, waypB.dateFrom);
-
   return weight ?? dayjs(waypB.dateTo).diff(dayjs(waypB.dateFrom)) - dayjs(waypA.dateTo).diff(dayjs(waypA.dateFrom));
 
 }
 
 function sortByPrice(waypA, waypB) {
   return waypB.basePrice - waypA.basePrice;
+}
+
+function sortByDate(points) {
+  return points.sort((a, b) => {
+    const dateDiff = dayjs(a.dateFrom).unix() - dayjs(b.dateFrom).unix();
+    return dateDiff;
+  });
 }
 
 function isDatesEqual(dateA, dateB) {
@@ -90,5 +96,6 @@ export {
   isPointPast,
   sortByTime,
   sortByPrice,
+  sortByDate,
   isDatesEqual,
 };

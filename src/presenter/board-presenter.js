@@ -2,6 +2,7 @@ import PointListView from '../view/point-list-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointsView from '../view/no-points-view.js';
 import LoadingView from '../view/loading-view.js';
+import ServerErrorView from '../view/server-error-view.js';
 
 import TripInfoView from '../view/trip-info-view.js';
 
@@ -9,7 +10,7 @@ import PointPresenter from './point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
 
 import { render, remove, RenderPosition } from '../framework/render.js';
-import { sortByTime, sortByPrice } from '../utils/point.js';
+import { sortByTime, sortByPrice, sortByDate } from '../utils/point.js';
 
 import { SortType, UpdateType, UserAction, FilterType } from '../const.js';
 import { filter } from '../utils/filters.js';
@@ -32,6 +33,7 @@ export default class BoardPresenter {
   #pointListComponent = new PointListView();
   #tripInfoComponent = new TripInfoView();
   #loadingComponent = new LoadingView();
+  #serverErrorComponent = new ServerErrorView();
   #noPointsComponent = null;
   #sortComponent = null;
 
@@ -73,7 +75,7 @@ export default class BoardPresenter {
 
     switch (this.#currentSortType) {
       case SortType.DAY:
-        return filteredPoints;
+        return [...sortByDate(filteredPoints)];
       case SortType.TIME:
         return filteredPoints.sort(sortByTime);
       case SortType.PRICE:
@@ -149,6 +151,11 @@ export default class BoardPresenter {
       case UpdateType.INIT:
         this.#isLoading = false;
         remove(this.#loadingComponent);
+        remove(this.#serverErrorComponent);
+        if (data.isError) {
+          this.#renderServerError();
+          break;
+        }
         this.#clearBoard();
         this.#renderBoard();
         break;
@@ -178,6 +185,10 @@ export default class BoardPresenter {
 
   #renderLoading() {
     render(this.#loadingComponent, this.#pointListComponent.element);
+  }
+
+  #renderServerError() {
+    render(this.#serverErrorComponent, this.#boardContainer);
   }
 
   #handleSortTypeChange = (sortType) => {

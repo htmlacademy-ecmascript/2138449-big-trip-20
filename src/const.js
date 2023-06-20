@@ -13,18 +13,6 @@ const SortType = {
   OFFERS: 'offers'
 };
 
-const CITIES = [
-  'Geneva',
-  'Chamonix',
-  'Amsterdam',
-  'Tbilisi',
-  'Batumi',
-  'Kutaisi',
-  'Barcelona',
-  'London',
-  'Buenos-Aires',
-];
-
 const POINT_TYPES = [
   'Taxi',
   'Bus',
@@ -50,4 +38,4 @@ const UpdateType = {
   INIT: 'INIT'
 };
 
-export {FilterType, SortType, CITIES, POINT_TYPES, UpdateType, UserAction};
+export {FilterType, SortType, POINT_TYPES, UpdateType, UserAction};
