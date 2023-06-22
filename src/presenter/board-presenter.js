@@ -9,7 +9,7 @@ import TripInfoView from '../view/trip-info-view.js';
 import PointPresenter from './point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
 
-import { render, remove, RenderPosition } from '../framework/render.js';
+import { render, remove, replace, RenderPosition } from '../framework/render.js';
 import { sortByTime, sortByPrice, sortByDate } from '../utils/point.js';
 
 import { SortType, UpdateType, UserAction, FilterType } from '../const.js';
@@ -31,7 +31,7 @@ export default class BoardPresenter {
   #filtersModel = null;
 
   #pointListComponent = new PointListView();
-  #tripInfoComponent = new TripInfoView();
+  #tripInfoComponent = null;
   #loadingComponent = new LoadingView();
   #serverErrorComponent = new ServerErrorView();
   #noPointsComponent = null;
@@ -90,7 +90,22 @@ export default class BoardPresenter {
   }
 
   #renderTripInfo() {
-    render(this.#tripInfoComponent, this.#tripInfoContainer, RenderPosition.AFTERBEGIN);
+    const prevTripInfoComponent = this.#tripInfoComponent;
+
+    this.#tripInfoComponent = new TripInfoView({
+      destinationsModel: this.#destinationsModel,
+      pointsModel: this.#pointsModel,
+      offersModel: this.#offersModel,
+    });
+
+    if (prevTripInfoComponent === null) {
+      render(this.#tripInfoComponent, this.#tripInfoContainer, RenderPosition.AFTERBEGIN);
+      return;
+    }
+
+    replace(this.#tripInfoComponent, prevTripInfoComponent);
+    remove(prevTripInfoComponent);
+
   }
 
   createPoint() {
@@ -158,6 +173,7 @@ export default class BoardPresenter {
         }
         this.#clearBoard();
         this.#renderBoard();
+        this.#renderTripInfo();
         break;
     }
   };
