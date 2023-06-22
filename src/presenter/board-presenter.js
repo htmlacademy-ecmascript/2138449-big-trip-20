@@ -154,14 +154,17 @@ export default class BoardPresenter {
     switch (updateType) {
       case UpdateType.PATCH:
         this.#pointPresenter.get(data.id).init(data);
+        this.#renderTripInfo();
         break;
       case UpdateType.MINOR:
         this.#clearBoard();
         this.#renderBoard();
+        this.#renderTripInfo();
         break;
       case UpdateType.MAJOR:
         this.#clearBoard({resetSortType: true});
         this.#renderBoard();
+        this.#renderTripInfo();
         break;
       case UpdateType.INIT:
         this.#isLoading = false;
